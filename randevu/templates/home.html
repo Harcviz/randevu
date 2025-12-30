@@ -1,0 +1,9916 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+<html lang="tr">
+
+
+
+
+
+
+
+<head>
+
+
+
+
+
+
+
+    <meta charset="utf-8" />
+
+
+
+
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+
+
+
+
+    <title>Randevum</title>
+
+
+
+
+
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+
+
+
+
+
+    <style>
+
+
+
+
+
+
+
+        @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        :root {
+
+
+
+
+
+
+
+            --bg: #080c18;
+
+
+
+
+
+
+
+            --panel: #0f172a;
+
+
+
+
+
+
+
+            --panel-2: #0b1224;
+
+
+
+
+
+
+
+            --panel-3: #101827;
+
+
+
+
+
+
+
+            --border: #1f2937;
+
+
+
+
+
+
+
+            --text: #e5e7eb;
+
+
+
+
+
+
+
+            --muted: #a3adc2;
+
+
+
+
+
+
+
+            --accent: #22d3ee;
+
+
+
+
+
+
+
+            --emerald: #22c55e;
+
+
+
+
+
+
+
+            --shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+
+
+
+
+
+
+
+            --day-size: 118px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        * {
+
+
+
+
+
+
+
+            box-sizing: border-box;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        body {
+
+
+
+
+
+
+
+            margin: 0;
+
+
+
+
+
+
+
+            padding: 0;
+
+
+
+
+
+
+
+            min-height: 100vh;
+
+
+
+
+
+
+
+            background: radial-gradient(130% 140% at 20% 20%, #11162a, #050815 55%, #030611);
+
+
+
+
+
+
+
+            color: var(--text);
+
+
+
+
+
+
+
+            font-family: "Manrope", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+
+
+
+
+
+
+            line-height: 1.5;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        a {
+
+
+
+
+
+
+
+            color: inherit;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .page {
+
+
+
+
+
+
+
+            max-width: 1180px;
+
+
+
+
+
+
+
+            margin: 0 auto;
+
+
+
+
+
+
+
+            padding: 24px 18px 72px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .top-bar {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            justify-content: space-between;
+
+
+
+
+
+
+
+            gap: 12px;
+
+
+
+
+
+
+
+            flex-wrap: wrap;
+
+
+
+
+
+
+
+            margin-bottom: 12px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .hero h1 {
+
+
+
+
+
+
+
+            margin: 0;
+
+
+
+
+
+
+
+            font-size: 36px;
+
+
+
+
+
+
+
+            font-weight: 800;
+
+
+
+
+
+
+
+            letter-spacing: -0.02em;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .hero p {
+
+
+
+
+
+
+
+            margin: 0;
+
+
+
+
+
+
+
+            color: var(--muted);
+
+
+
+
+
+
+
+            font-size: 15px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .chip {
+
+
+
+
+
+
+
+            display: inline-flex;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            gap: 8px;
+
+
+
+
+
+
+
+            padding: 9px 14px;
+
+
+
+
+
+
+
+            border-radius: 999px;
+
+
+
+
+
+
+
+            background: var(--panel-2);
+
+
+
+
+
+
+
+            border: 1px solid var(--border);
+
+
+
+
+
+
+
+            color: var(--text);
+
+
+
+
+
+
+
+            font-size: 15px;
+
+
+
+
+
+
+
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .chip.mini {
+
+
+
+
+
+
+
+            padding: 8px 12px;
+
+
+
+
+
+
+
+            font-size: 14px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .clock-group {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            gap: 8px;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .panel {
+
+
+
+
+
+
+
+            background: linear-gradient(155deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+
+
+
+
+
+
+
+            border: 1px solid var(--border);
+
+
+
+
+
+
+
+            border-radius: 16px;
+
+
+
+
+
+
+
+            padding: 16px;
+
+
+
+
+
+
+
+            box-shadow: var(--shadow);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .panel-muted {
+
+
+
+
+
+
+
+            background: linear-gradient(140deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.04));
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .panel-title {
+
+
+
+
+
+
+
+            margin: 0;
+
+
+
+
+
+
+
+            font-size: 18px;
+
+
+
+
+
+
+
+            font-weight: 700;
+
+
+
+
+
+
+
+            letter-spacing: -0.01em;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .eyebrow {
+
+
+
+
+
+
+
+            color: var(--muted);
+
+
+
+
+
+
+
+            font-size: 12px;
+
+
+
+
+
+
+
+            letter-spacing: 0.08em;
+
+
+
+
+
+
+
+            text-transform: uppercase;
+
+
+
+
+
+
+
+            margin-bottom: 4px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .layout {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            flex-direction: column;
+
+
+
+
+
+
+
+            gap: 14px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .stack {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            flex-direction: column;
+
+
+
+
+
+
+
+            gap: 12px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .panel-head {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            justify-content: space-between;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            gap: 12px;
+
+
+
+
+
+
+
+            flex-wrap: wrap;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .month-nav {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            gap: 8px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .btn,
+
+
+
+
+
+
+
+        .btn-ghost {
+
+
+
+
+
+
+
+            border: 1px solid var(--border);
+
+
+
+
+
+
+
+            background: var(--panel-2);
+
+
+
+
+
+
+
+            color: var(--text);
+
+
+
+
+
+
+
+            border-radius: 12px;
+
+
+
+
+
+
+
+            padding: 10px 14px;
+
+
+
+
+
+
+
+            font-weight: 700;
+
+
+
+
+
+
+
+            cursor: pointer;
+
+
+
+
+
+
+
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .btn:hover,
+
+
+
+
+
+
+
+        .btn-ghost:hover {
+
+
+
+
+
+
+
+            transform: translateY(-1px);
+
+
+
+
+
+
+
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+
+
+
+
+
+
+
+            border-color: rgba(255, 255, 255, 0.08);
+
+
+
+
+
+
+
+            background: var(--panel-3);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .btn-primary {
+
+
+
+
+
+
+
+            background: linear-gradient(90deg, #22d3ee, #a855f7);
+
+
+
+
+
+
+
+            border: none;
+
+
+
+
+
+
+
+            color: #0b0f1a;
+
+
+
+
+
+
+
+            box-shadow: 0 10px 24px rgba(168, 85, 247, 0.25);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .btn-danger {
+
+
+
+
+
+
+
+            background: rgba(248, 113, 113, 0.18);
+
+
+
+
+
+
+
+            color: #fecdd3;
+
+
+
+
+
+
+
+            border-color: rgba(248, 113, 113, 0.45);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .form-grid {
+
+
+
+
+
+
+
+            display: grid;
+
+
+
+
+
+
+
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+
+
+
+
+
+
+            gap: 14px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .form-grid.triple {
+
+
+
+
+
+
+
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        label {
+
+
+
+
+
+
+
+            display: block;
+
+
+
+
+
+
+
+            color: var(--muted);
+
+
+
+
+
+
+
+            font-size: 14px;
+
+
+
+
+
+
+
+            margin-bottom: 4px;
+
+
+
+
+
+
+
+            font-weight: 600;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+            min-height: 56px;
+            line-height: 1.25;
+        }
+
+        .input-tall {
+            height: 56px;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        input:focus,
+
+
+
+
+
+
+
+        select:focus,
+
+
+
+
+
+
+
+        textarea:focus {
+
+
+
+
+
+
+
+            border-color: var(--accent);
+
+
+
+
+
+
+
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
+
+
+
+
+
+
+
+            background: #0f1b32;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .input-tall {
+
+
+
+
+
+
+
+            padding-top: 14px;
+
+
+
+
+
+
+
+            padding-bottom: 14px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        input::placeholder,
+
+
+
+
+
+
+
+        textarea::placeholder {
+
+
+
+
+
+
+
+            color: #94a3b8;
+
+
+
+
+
+
+
+            opacity: 1;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Softer helper text that disappears on focus */
+
+
+
+
+
+
+
+        .placeholder-fade::placeholder {
+
+
+
+
+
+
+
+            color: rgba(148, 163, 184, 0.55);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .placeholder-fade:focus::placeholder {
+
+
+
+
+
+
+
+            color: transparent;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        select option {
+
+
+
+
+
+
+
+            background: #0f172a;
+
+
+
+
+
+
+
+            color: #e5e7eb;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        select option:disabled {
+
+
+
+
+
+
+
+            color: #94a3b8;
+
+
+
+
+
+
+
+            text-decoration: line-through;
+
+
+
+
+
+
+
+            opacity: 0.6;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        textarea {
+
+
+
+
+
+
+
+            min-height: 90px;
+
+
+
+
+
+
+
+            resize: vertical;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Form fields unified height */
+
+
+
+
+
+
+
+        input,
+
+
+
+
+
+
+
+        select,
+
+
+
+
+
+
+
+        textarea {
+
+
+
+
+
+
+
+            min-height: 52px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .calendar-weekdays {
+
+
+
+
+
+
+
+            display: grid;
+
+
+
+
+
+
+
+            grid-template-columns: repeat(7, 1fr);
+
+
+
+
+
+
+
+            gap: 6px;
+
+
+
+
+
+
+
+            color: var(--muted);
+
+
+
+
+
+
+
+            font-size: 13px;
+
+
+
+
+
+
+
+            font-weight: 700;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .calendar-grid {
+
+
+
+
+
+
+
+            display: grid;
+
+
+
+
+
+
+
+            grid-template-columns: repeat(7, 1fr);
+
+
+
+
+
+
+
+            gap: 8px;
+
+
+
+
+
+
+
+            margin-top: 12px;
+
+
+
+
+
+
+
+            grid-auto-rows: var(--day-size);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .day-cell {
+
+
+
+
+
+
+
+            position: relative;
+
+
+
+
+
+
+
+            border: 1px solid var(--border);
+
+
+
+
+
+
+
+            border-radius: 12px;
+
+
+
+
+
+
+
+            padding: 12px 10px 10px;
+
+
+
+
+
+
+
+            height: var(--day-size);
+
+
+
+
+
+
+
+            background: var(--panel-2);
+
+
+
+
+
+
+
+            color: var(--text);
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            flex-direction: column;
+
+
+
+
+
+
+
+            gap: 6px;
+
+
+
+
+
+
+
+            cursor: pointer;
+
+
+
+
+
+
+
+            transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+
+
+
+
+
+
+
+            overflow: hidden;
+
+
+
+
+
+
+
+            isolation: isolate;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .day-cell::after {
+
+
+
+
+
+
+
+            content: "";
+
+
+
+
+
+
+
+            position: absolute;
+
+
+
+
+
+
+
+            inset: 0;
+
+
+
+
+
+
+
+            background: linear-gradient(180deg, rgba(34, 211, 238, 0.14), rgba(168, 85, 247, 0.18));
+
+
+
+
+
+
+
+            transform: scaleY(var(--fill, 0));
+
+
+
+
+
+
+
+            transform-origin: bottom;
+
+
+
+
+
+
+
+            opacity: 0.9;
+
+
+
+
+
+
+
+            transition: transform 0.2s ease, opacity 0.2s ease;
+
+
+
+
+
+
+
+            pointer-events: none;
+
+
+
+
+
+
+
+            z-index: 0;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .day-cell > * {
+
+
+
+
+
+
+
+            position: relative;
+
+
+
+
+
+
+
+            z-index: 1;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .day-occupancy {
+
+
+
+
+
+
+
+            margin-top: auto;
+
+
+
+
+
+
+
+            font-size: 12px;
+
+
+
+
+
+
+
+            font-weight: 700;
+
+
+
+
+
+
+
+            color: #c7d2fe;
+
+
+
+
+
+
+
+            display: inline-flex;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            gap: 6px;
+
+
+
+
+
+
+
+            letter-spacing: -0.01em;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .day-cell:hover {
+
+
+
+
+
+
+
+            transform: translateY(-2px);
+
+
+
+
+
+
+
+            border-color: var(--accent);
+
+
+
+
+
+
+
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .day-number {
+
+
+
+
+
+
+
+            font-weight: 900;
+
+
+
+
+
+
+
+            color: #e2f3ff;
+
+
+
+
+
+
+
+            font-size: 16px;
+
+
+
+
+
+
+
+            letter-spacing: -0.01em;
+
+
+
+
+
+
+
+            text-shadow: 0 0 8px rgba(34, 211, 238, 0.35);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .day-week {
+
+
+
+
+
+
+
+            font-size: 12px;
+
+
+
+
+
+
+
+            color: var(--muted);
+
+
+
+
+
+
+
+            text-transform: uppercase;
+
+
+
+
+
+
+
+            letter-spacing: 0.04em;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .dot-row {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            gap: 4px;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            flex-wrap: wrap;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .dot {
+
+
+
+
+
+
+
+            width: 8px;
+
+
+
+
+
+
+
+            height: 8px;
+
+
+
+
+
+
+
+            border-radius: 999px;
+
+
+
+
+
+
+
+            display: inline-block;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .selected {
+
+
+
+
+
+
+
+            border-color: var(--accent);
+
+
+
+
+
+
+
+            box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.18);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .today {
+
+
+
+
+
+
+
+            border-color: #10b981;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .booking-list {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            flex-direction: column;
+
+
+
+
+
+
+
+            gap: 10px;
+
+
+
+
+
+
+
+            margin-top: 12px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .booking-card {
+
+
+
+
+
+
+
+            display: grid;
+
+
+
+
+
+
+
+            grid-template-columns: 88px 1fr auto;
+
+
+
+
+
+
+
+            gap: 12px;
+
+
+
+
+
+
+
+            padding: 12px;
+
+
+
+
+
+
+
+            border-radius: 12px;
+
+
+
+
+
+
+
+            background: var(--panel-2);
+
+
+
+
+
+
+
+            border: 1px solid var(--border);
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .booking-time {
+
+
+
+
+
+
+
+            width: 78px;
+
+
+
+
+
+
+
+            height: 54px;
+
+
+
+
+
+
+
+            border-radius: 12px;
+
+
+
+
+
+
+
+            display: grid;
+
+
+
+
+
+
+
+            place-items: center;
+
+
+
+
+
+
+
+            color: #e5e7eb;
+
+
+
+
+
+
+
+            font-weight: 800;
+
+
+
+
+
+
+
+            letter-spacing: 0.02em;
+
+
+
+
+
+
+
+            background: rgba(34, 211, 238, 0.14);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .booking-meta {
+
+
+
+
+
+
+
+            color: var(--muted);
+
+
+
+
+
+
+
+            font-size: 14px;
+
+
+
+
+
+
+
+            margin-top: 2px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .booking-actions {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            gap: 6px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .btn-ghost {
+
+
+
+
+
+
+
+            background: var(--panel);
+
+
+
+
+
+
+
+            border: 1px solid var(--border);
+
+
+
+
+
+
+
+            color: var(--text);
+
+
+
+
+
+
+
+            padding: 8px 12px;
+
+
+
+
+
+
+
+            border-radius: 10px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .btn-ghost.danger {
+
+
+
+
+
+
+
+            color: #fecdd3;
+
+
+
+
+
+
+
+            border-color: rgba(248, 113, 113, 0.45);
+
+
+
+
+
+
+
+            background: rgba(248, 113, 113, 0.12);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #booking-panel summary {
+
+
+
+
+
+
+
+            cursor: pointer;
+
+
+
+
+
+
+
+            list-style: none;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #booking-panel summary::-webkit-details-marker {
+
+
+
+
+
+
+
+            display: none;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .legend-list {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            flex-direction: row;
+
+
+
+
+
+
+
+            flex-wrap: wrap;
+
+
+
+
+
+
+
+            gap: 12px;
+
+
+
+
+
+
+
+            margin-top: 6px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .legend-item {
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            justify-content: space-between;
+
+
+
+
+
+
+
+            gap: 10px;
+
+
+
+
+
+
+
+            padding: 10px 12px;
+
+
+
+
+
+
+
+            border-radius: 12px;
+
+
+
+
+
+
+
+            background: var(--panel-2);
+
+
+
+
+
+
+
+            border: 1px solid var(--border);
+
+
+
+
+
+
+
+            flex: 1 1 240px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #instructor-list {
+
+
+
+
+
+
+
+            display: grid;
+
+
+
+
+
+
+
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+
+
+
+
+
+
+            gap: 12px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .settings summary {
+
+
+
+
+
+
+
+            cursor: pointer;
+
+
+
+
+
+
+
+            list-style: none;
+
+
+
+
+
+
+
+            font-weight: 700;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .settings summary::-webkit-details-marker {
+
+
+
+
+
+
+
+            display: none;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .settings form {
+
+
+
+
+
+
+
+            margin-top: 12px;
+
+
+
+
+
+
+
+            display: flex;
+
+
+
+
+
+
+
+            flex-direction: column;
+
+
+
+
+
+
+
+            gap: 10px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .settings .row {
+
+
+
+
+
+
+
+            display: grid;
+
+
+
+
+
+
+
+            grid-template-columns: 1fr 1fr 120px;
+
+
+
+
+
+
+
+            gap: 8px;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            background: var(--panel-2);
+
+
+
+
+
+
+
+            padding: 10px;
+
+
+
+
+
+
+
+            border-radius: 10px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .settings .row label {
+
+
+
+
+
+
+
+            margin: 0;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .settings input[type="color"] {
+
+
+
+
+
+
+
+            padding: 0;
+
+
+
+
+
+
+
+            height: 42px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .capacity-pill {
+
+
+
+
+
+
+
+            display: inline-flex;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            gap: 6px;
+
+
+
+
+
+
+
+            padding: 8px 12px;
+
+
+
+
+
+
+
+            border-radius: 12px;
+
+
+
+
+
+
+
+            background: rgba(34, 197, 94, 0.16);
+
+
+
+
+
+
+
+            border: 1px solid rgba(34, 197, 94, 0.45);
+
+
+
+
+
+
+
+            color: #bbf7d0;
+
+
+
+
+
+
+
+            font-weight: 700;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .free-pill {
+
+
+
+
+
+
+
+            display: inline-flex;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            gap: 6px;
+
+
+
+
+
+
+
+            padding: 6px 10px;
+
+
+
+
+
+
+
+            border-radius: 10px;
+
+
+
+
+
+
+
+            background: rgba(34, 211, 238, 0.16);
+
+
+
+
+
+
+
+            border: 1px solid rgba(34, 211, 238, 0.45);
+
+
+
+
+
+
+
+            color: #e0f2fe;
+
+
+
+
+
+
+
+            font-weight: 700;
+
+
+
+
+
+
+
+            font-size: 13px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .instructor-row {
+
+
+
+
+
+
+
+            display: grid;
+
+
+
+
+
+
+
+            grid-template-columns: auto 1fr auto;
+
+
+
+
+
+
+
+            gap: 16px;
+
+
+
+
+
+
+
+            align-items: center;
+
+
+
+
+
+
+
+            padding: 14px 12px;
+
+
+
+
+
+
+
+            border-radius: 12px;
+
+
+
+
+
+
+
+            border: 1px dashed var(--border);
+
+
+
+
+
+
+
+            background: var(--panel-2);
+
+
+
+
+
+
+
+            margin-top: 8px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .small {
+
+
+
+
+
+
+
+            font-size: 13px;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .muted {
+
+
+
+
+
+
+
+            color: var(--muted);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .hidden {
+
+
+
+
+
+
+
+            display: none;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @media (max-width: 960px) {
+
+
+
+
+
+
+
+            .form-grid {
+
+
+
+
+
+
+
+                grid-template-columns: 1fr;
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+            .form-grid.triple {
+
+
+
+
+
+
+
+                grid-template-columns: 1fr;
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+            .booking-card {
+
+
+
+
+
+
+
+                grid-template-columns: 1fr;
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+            .panel-head {
+
+
+
+
+
+
+
+                align-items: flex-start;
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+            .month-nav {
+
+
+
+
+
+
+
+                width: 100%;
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    </style>
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body>
+
+
+
+
+
+
+
+<div class="page">
+
+
+
+
+
+
+
+    <div class="top-bar">
+
+
+
+
+
+
+
+        <div class="clock-group">
+
+
+
+
+
+
+
+            <div class="chip mini" id="live-date">-- --</div>
+
+
+
+
+
+
+
+            <div class="chip mini" id="live-time">--:--:--</div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div class="hero">
+
+
+
+
+
+
+
+            <h1>Randevum</h1>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <details class="panel settings" id="settings-drawer">
+
+
+
+
+
+
+
+            <summary>Ayarlar</summary>
+
+
+
+
+
+
+
+            <form id="settings-form">
+
+
+
+
+
+
+
+                <div class="form-grid">
+
+
+
+
+
+
+
+                    <div>
+
+
+
+
+
+
+
+                        <label>Başlangıç saati</label>
+
+
+
+
+
+
+
+                        <input type="time" id="start-hour" value="09:00" />
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                    <div>
+
+
+
+
+
+
+
+                        <label>Bitiş saati</label>
+
+
+
+
+
+
+
+                        <input type="time" id="end-hour" value="18:00" />
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div id="settings-instructors" class="legend-list"></div>
+
+
+
+
+
+
+
+                <div>
+
+
+
+
+
+
+
+                    <button class="btn btn-primary" type="submit">Ayarları kaydet</button>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </form>
+
+
+
+
+
+
+
+        </details>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="panel" style="margin-bottom:12px;">
+
+
+
+
+
+
+
+        <div class="eyebrow">Yaşam koçu çalışma saatleri</div>
+
+
+
+
+
+
+
+        <div id="legend-display" class="legend-list"></div>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="layout">
+
+
+
+
+
+
+
+        <section class="panel" id="calendar-panel">
+
+
+
+
+
+
+
+            <div class="panel-head">
+
+
+
+
+
+
+
+                <div>
+
+
+
+
+
+
+
+                    <div class="eyebrow">Ay görünümü</div>
+
+
+
+
+
+
+
+                    <h2 class="panel-title" id="month-label">Aralık 2025</h2>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="month-nav">
+
+
+
+
+
+
+
+                    <button class="btn-ghost" id="prev-month">Önceki</button>
+
+
+
+
+
+
+
+                    <button class="btn-ghost" id="next-month">Sonraki</button>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="calendar-weekdays" id="weekday-row"></div>
+
+
+
+
+
+
+
+            <div class="calendar-grid" id="calendar-grid"></div>
+
+
+
+
+
+
+
+            <div class="muted small" style="margin-top:8px; display:flex; align-items:center; gap:6px;">
+
+
+
+
+
+
+
+                <span class="dot" style="background: var(--accent);"></span> randevulu gün
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section class="panel" id="form-panel">
+
+
+
+
+
+
+
+            <div class="panel-head">
+
+
+
+
+
+
+
+                <div>
+
+
+
+
+
+
+
+                    <div class="eyebrow">Gün seçimi</div>
+
+
+
+
+
+
+
+                    <h2 class="panel-title" id="form-date-label">Bugün</h2>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="capacity-pill" id="day-availability">0 dolu • 72 boş</div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="form-grid triple" style="margin-top:14px;">
+                <div>
+                    <label>Hoca seç</label>
+                    <select id="instructor-select"></select>
+                </div>
+                <div>
+                    <label>Saat aralığı (15 dk)</label>
+                    <select id="slot-select"></select>
+                    <div class="small muted" id="slot-hint" style="margin-top:4px;">--</div>
+                </div>
+                <div>
+                    <label>Danışan sayısı (15 dk / kişi)</label>
+                    <input type="number" id="attendees" class="input-tall" min="1" max="20" value="1" />
+                </div>
+            </div>
+            <div class="form-grid" style="grid-template-columns: 1fr; margin-top:12px;">
+                <div>
+                    <label>Randevu başlığı</label>
+                    <input type="text" id="title-input" class="input-tall placeholder-fade" placeholder="Örn: Diyet kontrol" />
+                </div>
+            </div>
+            <div class="form-grid triple" style="margin-top:12px;">
+                <div>
+                    <label>Ad Soyad</label>
+                    <input type="text" id="full-name" class="input-tall placeholder-fade" placeholder="Ad Soyad" />
+                </div>
+                <div>
+                    <label>Telefon</label>
+                    <input type="tel" id="phone" class="input-tall placeholder-fade" placeholder="05xx xxx xx xx" />
+                </div>
+                <div>
+                    <label>Not (opsiyonel)</label>
+                    <textarea id="note-input" class="input-tall placeholder-fade" placeholder="Danışan adı, amaç, hatırlatma..."></textarea>
+                </div>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:12px;">
+
+
+
+
+
+
+
+                <button class="btn btn-primary" id="save-slot">Kaydet</button>
+
+
+
+
+
+
+
+                <button class="btn-ghost" id="reset-form" type="button">Temizle</button>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <p class="small muted" style="margin-top:8px;">Veriler tarayıcı hafızasında saklanır; sayfa yenilenince silinmez.</p>
+
+
+
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <details class="panel" id="booking-panel" open>
+
+
+
+
+
+
+
+            <summary class="panel-head">
+
+
+
+
+
+
+
+                <div>
+
+
+
+
+
+
+
+                    <div class="eyebrow">Günlük döküm</div>
+
+
+
+
+
+
+
+                    <h2 class="panel-title">Seçilen günün randevuları</h2>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div class="chip" id="selected-date-chip">Gün: --</div>
+
+
+
+
+
+
+
+            </summary>
+
+
+
+
+
+
+
+            <div id="booking-list" class="booking-list"></div>
+
+
+
+
+
+
+
+        </details>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <section class="panel panel-muted" id="instructor-view">
+
+
+
+
+
+
+
+            <div class="panel-head">
+
+
+
+
+
+
+
+                <div>
+
+
+
+
+
+
+
+                    <h2 class="panel-title">Randevular</h2>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <div style="display:flex; gap:8px; align-items:center;">
+
+
+
+
+
+
+
+                    <div class="chip" id="time-range-chip">09:00 - 18:00</div>
+
+
+
+
+
+
+
+                    <button class="btn-ghost" id="print-day">Günü yazdır</button>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div id="instructor-list" class="legend-list"></div>
+
+
+
+
+
+
+
+        </section>
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{ instructors|json_script:"instructor-data" }}
+
+
+
+
+
+
+
+{{ bookings|json_script:"booking-data" }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+
+
+(function() {
+
+
+
+
+
+
+
+    const monthNames = [
+        "Ocak",
+        "Şubat",
+        "Mart",
+        "Nisan",
+        "Mayıs",
+        "Haziran",
+        "Temmuz",
+        "Ağustos",
+        "Eylül",
+        "Ekim",
+        "Kasım",
+        "Aralık",
+    ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const weekdayNames = ["PZT", "SAL", "ÇAR", "PER", "CUM", "CTS", "PAZ"];
+
+
+
+
+
+
+
+    const slotMinutes = 15;
+
+
+
+
+
+
+
+    const dayCapacity = 72;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const defaultInstructors = JSON.parse(document.getElementById("instructor-data").textContent || "[]");
+
+
+
+
+
+
+
+    const defaultBookings = JSON.parse(document.getElementById("booking-data").textContent || "[]");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    let settings = loadSettings(defaultInstructors);
+
+
+
+
+
+
+
+    let instructors = settings.instructors;
+
+
+
+
+
+
+
+    let startHour = settings.startHour;
+
+
+
+
+
+
+
+    let endHour = settings.endHour;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    let bookings = loadBookings(defaultBookings);
+
+
+
+
+
+
+
+    let selectedDate = new Date();
+
+
+
+
+
+
+
+    let currentMonth = selectedDate.getMonth();
+
+
+
+
+
+
+
+    let currentYear = selectedDate.getFullYear();
+
+
+
+
+
+
+
+    let editingId = null;
+
+    function safeRenderCalendarFallback() {
+        const grid = document.getElementById("calendar-grid");
+        const monthLabel = document.getElementById("month-label");
+        if (!grid) return;
+        grid.innerHTML = "";
+        const now = new Date();
+        const fallbackMonth = now.getMonth();
+        const fallbackYear = now.getFullYear();
+        if (monthLabel) monthLabel.textContent = `${monthNames[fallbackMonth]} ${fallbackYear}`;
+        const firstDay = new Date(fallbackYear, fallbackMonth, 1);
+        const lastDay = new Date(fallbackYear, fallbackMonth + 1, 0).getDate();
+        const startWeek = (firstDay.getDay() + 6) % 7;
+        for (let i = 0; i < startWeek; i++) grid.appendChild(document.createElement("div"));
+        for (let day = 1; day <= lastDay; day++) {
+            const cell = document.createElement("div");
+            cell.className = "day-cell";
+            const num = document.createElement("div");
+            num.className = "day-number";
+            num.textContent = day;
+            const week = document.createElement("div");
+            week.className = "day-week";
+            week.textContent = weekdayNames[(new Date(fallbackYear, fallbackMonth, day).getDay() + 6) % 7];
+            cell.appendChild(num);
+            cell.appendChild(week);
+            grid.appendChild(cell);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    try {
+        seedDecemberIfEmpty();
+        renderWeekdays();
+        renderLegend();
+        renderSettingsForm();
+        renderInstructorSelect();
+        renderCalendar();
+        selectDate(selectedDate);
+        updateClock();
+        setInterval(updateClock, 1000);
+    } catch (e) {
+        console.error("Takvim yüklenirken hata:", e);
+        safeRenderCalendarFallback();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    document.getElementById("prev-month").addEventListener("click", () => changeMonth(-1));
+
+
+
+
+
+
+
+    document.getElementById("next-month").addEventListener("click", () => changeMonth(1));
+
+
+
+
+
+
+
+    document.getElementById("instructor-select").addEventListener("change", () => {
+
+
+
+
+
+
+
+        renderSlotOptions();
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+    document.getElementById("attendees").addEventListener("input", renderSlotOptions);
+
+
+
+
+
+
+
+    document.getElementById("save-slot").addEventListener("click", saveSlot);
+
+
+
+
+
+
+
+    document.getElementById("reset-form").addEventListener("click", resetForm);
+
+
+
+
+
+
+
+    document.getElementById("booking-list").addEventListener("click", handleBookingActions);
+
+
+
+
+
+
+
+    document.getElementById("settings-form").addEventListener("submit", applySettings);
+
+
+
+
+
+
+
+    document.getElementById("print-day").addEventListener("click", () => printDay());
+
+
+
+
+
+
+
+    function loadSettings(defaultList) {
+        const saved = localStorage.getItem("randevum-settings");
+        if (!saved) return { startHour: 9, endHour: 18, instructors: defaultList };
+        try {
+            const parsed = JSON.parse(saved);
+            const parsedInstructors =
+                Array.isArray(parsed.instructors) && parsed.instructors.length ? parsed.instructors : defaultList;
+            return {
+                startHour: parsed.startHour ?? 9,
+                endHour: parsed.endHour ?? 18,
+                instructors: parsedInstructors,
+            };
+        } catch (e) {
+            localStorage.removeItem("randevum-settings");
+            return { startHour: 9, endHour: 18, instructors: defaultList };
+        }
+    }
+    function saveSettings() {
+
+
+
+
+
+
+
+        localStorage.setItem(
+
+
+
+
+
+
+
+            "randevum-settings",
+
+
+
+
+
+
+
+            JSON.stringify({ startHour, endHour, instructors })
+
+
+
+
+
+
+
+        );
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function loadBookings(initial) {
+        const saved = localStorage.getItem("randevum-bookings");
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                return Array.isArray(parsed) ? parsed : initial;
+            } catch (e) {
+                localStorage.removeItem("randevum-bookings");
+                return initial;
+            }
+        }
+        return initial.map((b, idx) => {
+
+
+
+
+
+
+
+            const fullName = b.client || "";
+
+
+
+
+
+
+
+            const parts = fullName.trim().split(" ");
+
+
+
+
+
+
+
+            const firstName = parts[0] || "";
+
+
+
+
+
+
+
+            const lastName = parts.slice(1).join(" ");
+
+
+
+
+
+
+
+            return {
+
+
+
+
+
+
+
+                id: `seed-${idx}`,
+
+
+
+
+
+
+
+                date: b.date,
+
+
+
+
+
+
+
+                time: b.time,
+
+
+
+
+
+
+
+                instructor: b.instructor,
+
+
+
+
+
+
+
+                title: b.title,
+
+
+
+
+
+
+
+                client: fullName,
+
+
+
+
+
+
+
+                firstName,
+
+
+
+
+
+
+
+                lastName,
+
+
+
+
+
+
+
+                phone: b.phone || "",
+
+
+
+
+
+
+
+                attendees: b.attendees || Math.max(1, Math.round((b.duration || slotMinutes) / slotMinutes)),
+
+
+
+
+
+
+
+                duration: b.duration || slotMinutes,
+
+
+
+
+
+
+
+                note: b.note || "",
+
+
+
+
+
+
+
+            };
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function saveBookings() {
+
+
+
+
+
+
+
+        localStorage.setItem("randevum-bookings", JSON.stringify(bookings));
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function toISO(date) {
+
+
+
+
+
+
+
+        return date.toISOString().split("T")[0];
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function padTime(num) {
+
+
+
+
+
+
+
+        return String(num).padStart(2, "0");
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function minutesToTime(mins) {
+
+
+
+
+
+
+
+        const h = Math.floor(mins / 60);
+
+
+
+
+
+
+
+        const m = mins % 60;
+
+
+
+
+
+
+
+        return `${padTime(h)}:${padTime(m)}`;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function timeToMinutes(timeStr) {
+
+
+
+
+
+
+
+        const [h, m] = timeStr.split(":").map(Number);
+
+
+
+
+
+
+
+        return h * 60 + m;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function addMinutes(timeStr, mins) {
+
+
+
+
+
+
+
+        return minutesToTime(timeToMinutes(timeStr) + mins);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function formatDateLabel(dateObj) {
+
+
+
+
+
+
+
+        return `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function updateClock() {
+
+
+
+
+
+
+
+        const now = new Date();
+
+
+
+
+
+
+
+        const dateLabel = `${padTime(now.getDate())} ${monthNames[now.getMonth()]}`;
+
+
+
+
+
+
+
+        const timeLabel = `${padTime(now.getHours())}:${padTime(now.getMinutes())}:${padTime(now.getSeconds())}`;
+
+
+
+
+
+
+
+        const dateEl = document.getElementById("live-date");
+
+
+
+
+
+
+
+        const timeEl = document.getElementById("live-time");
+
+
+
+
+
+
+
+        if (dateEl) dateEl.textContent = dateLabel;
+
+
+
+
+
+
+
+        if (timeEl) timeEl.textContent = timeLabel;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function renderWeekdays() {
+
+
+
+
+
+
+
+        const row = document.getElementById("weekday-row");
+
+
+
+
+
+
+
+        row.innerHTML = weekdayNames
+
+
+
+
+
+
+
+            .map((d) => `<div style="text-align:center; font-weight:600;">${d}</div>`)
+
+
+
+
+
+
+
+            .join("");
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function renderCalendar() {
+
+
+
+
+
+
+
+        const grid = document.getElementById("calendar-grid");
+
+
+
+
+
+
+
+        grid.innerHTML = "";
+
+
+
+
+
+
+
+        const firstDay = new Date(currentYear, currentMonth, 1);
+
+
+
+
+
+
+
+        const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+
+
+
+
+
+
+        const startWeek = (firstDay.getDay() + 6) % 7; // Monday-first
+
+
+
+
+
+
+
+        document.getElementById("month-label").textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        for (let i = 0; i < startWeek; i++) {
+
+
+
+
+
+
+
+            const placeholder = document.createElement("div");
+
+
+
+
+
+
+
+            grid.appendChild(placeholder);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        for (let day = 1; day <= lastDay; day++) {
+
+
+
+
+
+
+
+            const dateObj = new Date(currentYear, currentMonth, day);
+
+
+
+
+
+
+
+            const iso = toISO(dateObj);
+
+
+
+
+
+
+
+            const cell = document.createElement("div");
+
+
+
+
+
+
+
+            cell.className = "day-cell";
+
+
+
+
+
+
+
+            cell.dataset.date = iso;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const dayNumber = document.createElement("div");
+
+
+
+
+
+
+
+            dayNumber.className = "day-number";
+
+
+
+
+
+
+
+            dayNumber.textContent = day;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const dayWeek = document.createElement("div");
+
+
+
+
+
+
+
+            dayWeek.className = "day-week";
+
+
+
+
+
+
+
+            dayWeek.textContent = weekdayNames[(dateObj.getDay() + 6) % 7];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const dots = document.createElement("div");
+
+
+
+
+
+
+
+            dots.className = "dot-row";
+
+
+
+
+
+
+
+            const dayBookings = bookings.filter((b) => b.date === iso);
+
+
+
+
+
+
+
+            const busyCount = dayBookings.reduce((sum, b) => sum + (b.attendees || 1), 0);
+
+
+
+
+
+
+
+            const fillRatio = Math.min(busyCount / dayCapacity, 1);
+
+
+
+
+
+
+
+            cell.style.setProperty("--fill", fillRatio || 0);
+
+
+
+
+
+
+
+            const seenColors = new Set();
+
+
+
+
+
+
+
+            dayBookings.forEach((b) => {
+
+
+
+
+
+
+
+                const inst = instructors.find((i) => i.id === b.instructor);
+
+
+
+
+
+
+
+                if (inst && !seenColors.has(inst.color)) {
+
+
+
+
+
+
+
+                    const dot = document.createElement("span");
+
+
+
+
+
+
+
+                    dot.className = "dot";
+
+
+
+
+
+
+
+                    dot.style.background = inst.color;
+
+
+
+
+
+
+
+                    dots.appendChild(dot);
+
+
+
+
+
+
+
+                    seenColors.add(inst.color);
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if (iso === toISO(new Date())) cell.classList.add("today");
+
+
+
+
+
+
+
+            if (iso === toISO(selectedDate)) cell.classList.add("selected");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            cell.appendChild(dayNumber);
+
+
+
+
+
+
+
+            cell.appendChild(dayWeek);
+
+
+
+
+
+
+
+            if (dots.childNodes.length) {
+
+
+
+
+
+
+
+                cell.appendChild(dots);
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const occupancy = document.createElement("div");
+
+
+
+
+
+
+
+            occupancy.className = "day-occupancy";
+
+
+
+
+
+
+
+            const percentLabel = Math.round(fillRatio * 100);
+
+
+
+
+
+
+
+            occupancy.textContent = `${busyCount}/${dayCapacity} (${percentLabel}%)`;
+
+
+
+
+
+
+
+            cell.appendChild(occupancy);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            cell.addEventListener("click", () => selectDate(dateObj));
+
+
+
+
+
+
+
+            grid.appendChild(cell);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function selectDate(dateObj) {
+
+
+
+
+
+
+
+        selectedDate = new Date(dateObj);
+
+
+
+
+
+
+
+        currentMonth = selectedDate.getMonth();
+
+
+
+
+
+
+
+        currentYear = selectedDate.getFullYear();
+
+
+
+
+
+
+
+        document.getElementById("selected-date-chip").textContent = `Gün: ${formatDateLabel(selectedDate)}`;
+
+
+
+
+
+
+
+        document.getElementById("form-date-label").textContent = formatDateLabel(selectedDate);
+
+
+
+
+
+
+
+        renderCalendar();
+
+
+
+
+
+
+
+        renderBookings();
+
+
+
+
+
+
+
+        renderSlotOptions();
+
+
+
+
+
+
+
+        renderInstructorDayView();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    function renderBookings() {
+
+
+
+
+
+
+
+        const list = document.getElementById("booking-list");
+
+
+
+
+
+
+
+        list.innerHTML = "";
+
+
+
+
+
+
+
+        const iso = toISO(selectedDate);
+
+
+
+
+
+
+
+        const dayBookings = bookings
+
+
+
+
+
+
+
+            .filter((b) => b.date === iso)
+
+
+
+
+
+
+
+            .sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const busy = dayBookings.reduce((sum, b) => sum + (b.attendees || 1), 0);
+
+
+
+
+
+
+
+        const free = Math.max(dayCapacity - busy, 0);
+
+
+
+
+
+
+
+        document.getElementById("day-availability").textContent = `${busy} dolu • ${free} boş`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if (!dayBookings.length) {
+
+
+
+
+
+
+
+            const empty = document.createElement("div");
+
+
+
+
+
+
+
+            empty.className = "muted";
+
+
+
+
+
+
+
+            empty.textContent = "Henüz randevu yok. Gün ve hoca seçip 15 dk slot ekleyebilirsin.";
+
+
+
+
+
+
+
+            list.appendChild(empty);
+
+
+
+
+
+
+
+            return;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        dayBookings.forEach((b) => {
+
+
+
+
+
+
+
+            const card = document.createElement("div");
+
+
+
+
+
+
+
+            card.className = "booking-card";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const inst = instructors.find((i) => i.id === b.instructor) || { color: "#a855f7", name: b.instructor };
+
+
+
+
+
+
+
+            const timeBox = document.createElement("div");
+
+
+
+
+
+
+
+            timeBox.className = "booking-time";
+
+
+
+
+
+
+
+            timeBox.style.background = inst.color;
+
+
+
+
+
+
+
+            timeBox.textContent = b.time;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const main = document.createElement("div");
+
+
+
+
+
+
+
+            const title = document.createElement("div");
+
+
+
+
+
+
+
+            title.textContent = b.title || "Yeni randevu";
+
+
+
+
+
+
+
+            title.style.fontWeight = "700";
+
+
+
+
+
+
+
+            const meta = document.createElement("div");
+
+
+
+
+
+
+
+            meta.className = "booking-meta";
+
+
+
+
+
+
+
+            const name = `${(b.firstName || "").trim()} ${(b.lastName || "").trim()}`.trim() || (b.client || "");
+
+
+
+
+
+
+
+            const phone = (b.phone || "").trim();
+
+
+
+
+
+
+
+            meta.textContent = `${name}${phone ? " • " + phone : ""}${name ? " • " : ""}${inst.name}`;
+
+
+
+
+
+
+
+            const meta2 = document.createElement("div");
+
+
+
+
+
+
+
+            meta2.className = "booking-meta";
+
+
+
+
+
+
+
+            const duration = b.duration || slotMinutes;
+
+
+
+
+
+
+
+            meta2.textContent = `${b.attendees || 1} danışan • ${duration} dk • ${b.time} - ${addMinutes(b.time, duration)}`;
+
+
+
+
+
+
+
+            main.appendChild(title);
+
+
+
+
+
+
+
+            main.appendChild(meta);
+
+
+
+
+
+
+
+            main.appendChild(meta2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const actions = document.createElement("div");
+
+
+
+
+
+
+
+            actions.className = "booking-actions";
+
+
+
+
+
+
+
+            const editBtn = document.createElement("button");
+
+
+
+
+
+
+
+            editBtn.className = "btn-ghost";
+
+
+
+
+
+
+
+            editBtn.textContent = "Düzenle";
+
+
+
+
+
+
+
+            editBtn.dataset.id = b.id;
+
+
+
+
+
+
+
+            editBtn.dataset.action = "edit";
+
+
+
+
+
+
+
+            const delBtn = document.createElement("button");
+
+
+
+
+
+
+
+            delBtn.className = "btn-ghost danger";
+
+
+
+
+
+
+
+            delBtn.textContent = "Sil";
+
+
+
+
+
+
+
+            delBtn.dataset.id = b.id;
+
+
+
+
+
+
+
+            delBtn.dataset.action = "delete";
+
+
+
+
+
+
+
+            actions.appendChild(editBtn);
+
+
+
+
+
+
+
+            actions.appendChild(delBtn);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            card.appendChild(timeBox);
+
+
+
+
+
+
+
+            card.appendChild(main);
+
+
+
+
+
+
+
+            card.appendChild(actions);
+
+
+
+
+
+
+
+            list.appendChild(card);
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function handleBookingActions(event) {
+
+
+
+
+
+
+
+        const action = event.target.dataset.action;
+
+
+
+
+
+
+
+        const id = event.target.dataset.id;
+
+
+
+
+
+
+
+        if (!action || !id) return;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if (action === "delete") {
+
+
+
+
+
+
+
+            bookings = bookings.filter((b) => b.id !== id);
+
+
+
+
+
+
+
+            saveBookings();
+
+
+
+
+
+
+
+            renderBookings();
+
+
+
+
+
+
+
+            renderCalendar();
+
+
+
+
+
+
+
+            renderInstructorDayView();
+
+
+
+
+
+
+
+            renderSlotOptions();
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        if (action === "edit") {
+
+
+
+            const booking = bookings.find((b) => b.id === id);
+
+
+
+            if (!booking) return;
+
+
+
+            editingId = id;
+
+
+
+            document.getElementById("instructor-select").value = booking.instructor;
+
+
+
+            document.getElementById("title-input").value = booking.title;
+
+
+
+            document.getElementById("attendees").value = booking.attendees || 1;
+
+
+
+            document.getElementById("note-input").value = booking.note || "";
+
+
+
+            const fullName =
+
+
+
+                `${booking.firstName || ""} ${booking.lastName || ""}`.trim() || (booking.client || "");
+
+
+
+            document.getElementById("full-name").value = fullName;
+
+
+
+            document.getElementById("phone").value = booking.phone || "";
+
+
+
+            renderSlotOptions(booking.time);
+
+
+
+            document.getElementById("slot-select").value = booking.time;
+
+
+
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    function generateSlots() {
+
+
+
+
+
+
+
+        const slots = [];
+
+
+
+
+
+
+
+        const start = startHour * 60;
+
+
+
+
+
+
+
+        const end = endHour * 60;
+
+
+
+
+
+
+
+        for (let m = start; m < end; m += slotMinutes) {
+
+
+
+
+
+
+
+            slots.push(minutesToTime(m));
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        return slots;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function renderSlotOptions(preselect) {
+
+
+
+
+
+
+
+        const select = document.getElementById("slot-select");
+
+
+
+
+
+
+
+        const instructorId = document.getElementById("instructor-select").value;
+
+
+
+
+
+
+
+        const attendees = Math.max(1, parseInt(document.getElementById("attendees").value || "1", 10));
+
+
+
+
+
+
+
+        const duration = attendees * slotMinutes;
+
+
+
+
+
+
+
+        const iso = toISO(selectedDate);
+
+
+
+
+
+
+
+        const slots = generateSlots();
+
+
+
+
+
+
+
+        const taken = bookings
+
+
+
+
+
+
+
+            .filter((b) => b.date === iso && b.instructor === instructorId && b.id !== editingId)
+
+
+
+
+
+
+
+            .map((b) => ({ start: timeToMinutes(b.time), end: timeToMinutes(b.time) + (b.duration || slotMinutes) }));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        select.innerHTML = "";
+
+
+
+
+
+
+
+        let freeCount = 0;
+
+
+
+
+
+
+
+        slots.forEach((s) => {
+
+
+
+
+
+
+
+            const start = timeToMinutes(s);
+
+
+
+
+
+
+
+            const end = start + duration;
+
+
+
+
+
+
+
+            const overlaps = taken.some((t) => start < t.end && end > t.start);
+
+
+
+
+
+
+
+            if (!overlaps) freeCount += 1;
+
+
+
+
+
+
+
+            const opt = document.createElement("option");
+
+
+
+
+
+
+
+            opt.value = s;
+
+
+
+
+
+
+
+            opt.textContent = s;
+
+
+
+
+
+
+
+            opt.disabled = overlaps;
+
+
+
+
+
+
+
+            if (preselect === s) opt.selected = true;
+
+
+
+
+
+
+
+            select.appendChild(opt);
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+        document.getElementById("slot-hint").textContent = `${freeCount} uygun slot • ${padTime(startHour)} - ${padTime(endHour)} arası 15 dk`;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function renderInstructorSelect() {
+
+
+
+
+
+
+
+        const select = document.getElementById("instructor-select");
+
+
+
+
+
+
+
+        select.innerHTML = instructors
+
+
+
+
+
+
+
+            .map((i) => `<option value="${i.id}">${i.name}</option>`)
+
+
+
+
+
+
+
+            .join("");
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    function saveSlot() {
+        const instructor = document.getElementById("instructor-select").value;
+        const title = document.getElementById("title-input").value.trim() || "Yeni randevu";
+        const attendees = Math.max(1, parseInt(document.getElementById("attendees").value || "1", 10));
+        const duration = attendees * slotMinutes;
+        const time = document.getElementById("slot-select").value;
+        const note = document.getElementById("note-input").value.trim();
+        const fullNameRaw = document.getElementById("full-name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const iso = toISO(selectedDate);
+
+        if (!time) {
+            alert("Saat seçmelisin.");
+            return;
+        }
+        if (!fullNameRaw || !phone) {
+            alert("Ad soyad ve telefon zorunlu.");
+            return;
+        }
+
+        const parts = fullNameRaw.split(/\s+/);
+        const firstName = parts.shift() || "";
+        const lastName = parts.join(" ");
+
+        const start = timeToMinutes(time);
+        const end = start + duration;
+        if (end > endHour * 60) {
+            alert("Seçilen süre çalışma saatlerini aşıyor.");
+            return;
+        }
+
+        const overlaps = bookings.some((b) => {
+            if (b.date !== iso || b.instructor !== instructor) return false;
+            if (editingId && b.id === editingId) return false;
+            const bStart = timeToMinutes(b.time);
+            const bEnd = bStart + (b.duration || slotMinutes);
+            return start < bEnd && end > bStart;
+        });
+        if (overlaps) {
+            alert("Bu saat dilimi dolu.");
+            return;
+        }
+
+        const record = {
+            id: editingId || `bk-${Date.now()}`,
+            date: iso,
+            time,
+            instructor,
+            title,
+            client: fullNameRaw,
+            firstName,
+            lastName,
+            phone,
+            attendees,
+            duration,
+            note,
+        };
+
+        if (editingId) {
+            bookings = bookings.map((b) => (b.id === editingId ? record : b));
+        } else {
+            bookings.push(record);
+        }
+
+        editingId = null;
+        saveBookings();
+        renderBookings();
+        renderCalendar();
+        renderInstructorDayView();
+        renderSlotOptions();
+        resetForm();
+    }
+
+    function resetForm() {
+        editingId = null;
+        document.getElementById("title-input").value = "";
+        document.getElementById("attendees").value = 1;
+        document.getElementById("note-input").value = "";
+        document.getElementById("full-name").value = "";
+        document.getElementById("phone").value = "";
+        renderSlotOptions();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function changeMonth(delta) {
+
+
+
+
+
+
+
+        currentMonth += delta;
+
+
+
+
+
+
+
+        if (currentMonth < 0) {
+
+
+
+
+
+
+
+            currentMonth = 11;
+
+
+
+
+
+
+
+            currentYear -= 1;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        if (currentMonth > 11) {
+
+
+
+
+
+
+
+            currentMonth = 0;
+
+
+
+
+
+
+
+            currentYear += 1;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        renderCalendar();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function renderLegend() {
+
+
+
+
+
+
+
+        const container = document.getElementById("legend-display");
+
+
+
+
+
+
+
+        if (!container) return;
+
+
+
+
+
+
+
+        container.innerHTML = instructors
+
+
+
+
+
+
+
+            .map(
+
+
+
+
+
+
+
+                (i) => `
+
+
+
+
+
+
+
+            <div class="legend-item">
+
+
+
+
+
+
+
+                <div style="display:flex; align-items:center; gap:10px;">
+
+
+
+
+
+
+
+                    <span class="dot" style="background:${i.color}; width:12px; height:12px;"></span>
+
+
+
+
+
+
+
+                    <strong>${i.name}</strong>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+                <span class="small muted">${padTime(startHour)}:00 - ${padTime(endHour)}:00</span>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+        `
+
+
+
+
+
+
+
+            )
+
+
+
+
+
+
+
+            .join("");
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function renderSettingsForm() {
+
+
+
+
+
+
+
+        document.getElementById("start-hour").value = `${padTime(startHour)}:00`;
+
+
+
+
+
+
+
+        document.getElementById("end-hour").value = `${padTime(endHour)}:00`;
+
+
+
+
+
+
+
+        const area = document.getElementById("settings-instructors");
+
+
+
+
+
+
+
+        area.innerHTML = instructors
+
+
+
+
+
+
+
+            .map(
+
+
+
+
+
+
+
+                (i) => `
+
+
+
+
+
+
+
+                <div class="row">
+
+
+
+
+
+
+
+                    <label>${i.name}</label>
+
+
+
+
+
+
+
+                    <input type="text" value="${i.name}" data-inst="${i.id}" class="inst-name" />
+
+
+
+
+
+
+
+                    <input type="color" value="${i.color}" data-color="${i.id}" class="inst-color" />
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+            `
+
+
+
+
+
+
+
+            )
+
+
+
+
+
+
+
+            .join("");
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function applySettings(event) {
+
+
+
+
+
+
+
+        event.preventDefault();
+
+
+
+
+
+
+
+        const startVal = document.getElementById("start-hour").value || "09:00";
+
+
+
+
+
+
+
+        const endVal = document.getElementById("end-hour").value || "18:00";
+
+
+
+
+
+
+
+        const newStart = parseInt(startVal.split(":")[0], 10);
+
+
+
+
+
+
+
+        const newEnd = parseInt(endVal.split(":")[0], 10);
+
+
+
+
+
+
+
+        if (newEnd <= newStart) {
+
+
+
+
+
+
+
+            alert("Bitiş saati başlangıçtan büyük olmalı.");
+
+
+
+
+
+
+
+            return;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        startHour = newStart;
+
+
+
+
+
+
+
+        endHour = newEnd;
+
+
+
+
+
+
+
+        document.getElementById("time-range-chip").textContent = `${padTime(startHour)}:00 - ${padTime(endHour)}:00`;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const names = Array.from(document.querySelectorAll(".inst-name"));
+
+
+
+
+
+
+
+        const colors = Array.from(document.querySelectorAll(".inst-color"));
+
+
+
+
+
+
+
+        instructors = instructors.map((inst) => {
+
+
+
+
+
+
+
+            const nameInput = names.find((n) => n.dataset.inst === inst.id);
+
+
+
+
+
+
+
+            const colorInput = colors.find((c) => c.dataset.color === inst.id);
+
+
+
+
+
+
+
+            return {
+
+
+
+
+
+
+
+                ...inst,
+
+
+
+
+
+
+
+                name: nameInput?.value?.trim() || inst.name,
+
+
+
+
+
+
+
+                color: colorInput?.value || inst.color,
+
+
+
+
+
+
+
+            };
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        saveSettings();
+
+
+
+
+
+
+
+        renderLegend();
+
+
+
+
+
+
+
+        renderInstructorSelect();
+
+
+
+
+
+
+
+        renderCalendar();
+
+
+
+
+
+
+
+        renderBookings();
+
+
+
+
+
+
+
+        renderInstructorDayView();
+
+
+
+
+
+
+
+        renderSlotOptions();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    function renderInstructorDayView() {
+
+
+
+
+
+
+
+        const list = document.getElementById("instructor-list");
+
+
+
+
+
+
+
+        list.innerHTML = "";
+
+
+
+
+
+
+
+        const iso = toISO(selectedDate);
+
+
+
+
+
+
+
+        const capacityPerInstructor = Math.floor(((endHour - startHour) * 60) / slotMinutes);
+
+
+
+
+
+
+
+        instructors.forEach((inst) => {
+
+
+
+
+
+
+
+            const dayBookings = bookings.filter((b) => b.date === iso && b.instructor === inst.id);
+
+
+
+
+
+
+
+            const busy = dayBookings.reduce((sum, b) => sum + (b.attendees || 1), 0);
+
+
+
+
+
+
+
+            const free = Math.max(capacityPerInstructor - busy, 0);
+
+
+
+
+
+
+
+            const row = document.createElement("div");
+
+
+
+
+
+
+
+            row.className = "instructor-row";
+
+
+
+
+
+
+
+            const left = document.createElement("div");
+
+
+
+
+
+
+
+            left.style.display = "flex";
+
+
+
+
+
+
+
+            left.style.alignItems = "center";
+
+
+
+
+
+
+
+            left.style.gap = "10px";
+
+
+
+
+
+
+
+            const dot = document.createElement("span");
+
+
+
+
+
+
+
+            dot.className = "dot";
+
+
+
+
+
+
+
+            dot.style.width = "12px";
+
+
+
+
+
+
+
+            dot.style.height = "12px";
+
+
+
+
+
+
+
+            dot.style.background = inst.color;
+
+
+
+
+
+
+
+            const name = document.createElement("strong");
+
+
+
+
+
+
+
+            name.textContent = inst.name;
+
+
+
+
+
+
+
+            const freePill = document.createElement("span");
+
+
+
+
+
+
+
+            freePill.className = "free-pill";
+
+
+
+
+
+
+
+            freePill.textContent = `${free} boş`;
+
+
+
+
+
+
+
+            left.appendChild(dot);
+
+
+
+
+
+
+
+            left.appendChild(name);
+
+
+
+
+
+
+
+            left.appendChild(freePill);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const mid = document.createElement("div");
+
+
+
+
+
+
+
+            mid.textContent = "";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            const right = document.createElement("div");
+
+
+
+
+
+
+
+            const btn = document.createElement("button");
+
+
+
+
+
+
+
+            btn.className = "btn-ghost";
+
+
+
+
+
+
+
+            btn.textContent = "Yazdır";
+
+
+
+
+
+
+
+            btn.addEventListener("click", () => printInstructor(inst.id));
+
+
+
+
+
+
+
+            right.appendChild(btn);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            row.appendChild(left);
+
+
+
+
+
+
+
+            row.appendChild(mid);
+
+
+
+
+
+
+
+            row.appendChild(right);
+
+
+
+
+
+
+
+            list.appendChild(row);
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function printDay() {
+
+
+
+
+
+
+
+        const iso = toISO(selectedDate);
+
+
+
+
+
+
+
+        const dayBookings = bookings
+
+
+
+
+
+
+
+            .filter((b) => b.date === iso)
+
+
+
+
+
+
+
+            .sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+
+
+
+
+
+
+
+        const rows = dayBookings
+
+
+
+
+
+
+
+            .map((b) => {
+
+
+
+
+
+
+
+                const inst = instructors.find((i) => i.id === b.instructor) || { name: b.instructor };
+
+
+
+
+
+
+
+                const end = addMinutes(b.time, b.duration || slotMinutes);
+
+
+
+
+
+
+
+                return `<tr>
+
+
+
+
+
+
+
+                    <td>${b.time} - ${end}</td>
+
+
+
+
+
+
+
+                    <td>${b.title || ""}</td>
+
+
+
+
+
+
+
+                    <td>${(b.firstName || "")} ${(b.lastName || "")} ${b.phone ? " • " + b.phone : ""} • ${inst.name}</td>
+
+
+
+
+
+
+
+                    <td>${b.attendees || 1} kişi</td>
+
+
+
+
+
+
+
+                </tr>`;
+
+
+
+
+
+
+
+            })
+
+
+
+
+
+
+
+            .join("");
+
+
+
+
+
+
+
+        const html = buildPrintHtml(`Gün: ${iso}`, rows || `<tr><td colspan="4">Kayıt yok</td></tr>`);
+
+
+
+
+
+
+
+        openPrint(html);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function printInstructor(instId) {
+
+
+
+
+
+
+
+        const iso = toISO(selectedDate);
+
+
+
+
+
+
+
+        const dayBookings = bookings
+
+
+
+
+
+
+
+            .filter((b) => b.date === iso && b.instructor === instId)
+
+
+
+
+
+
+
+            .sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+
+
+
+
+
+
+
+        const inst = instructors.find((i) => i.id === instId) || { name: instId };
+
+
+
+
+
+
+
+        const rows = dayBookings
+
+
+
+
+
+
+
+            .map((b) => {
+
+
+
+
+
+
+
+                const end = addMinutes(b.time, b.duration || slotMinutes);
+
+
+
+
+
+
+
+                return `<tr>
+
+
+
+
+
+
+
+                    <td>${b.time} - ${end}</td>
+
+
+
+
+
+
+
+                    <td>${b.title || ""}</td>
+
+
+
+
+
+
+
+                    <td>${(b.firstName || "")} ${(b.lastName || "")} ${b.phone ? " • " + b.phone : ""}</td>
+
+
+
+
+
+
+
+                    <td>${b.attendees || 1} kişi</td>
+
+
+
+
+
+
+
+                </tr>`;
+
+
+
+
+
+
+
+            })
+
+
+
+
+
+
+
+            .join("");
+
+
+
+
+
+
+
+        const html = buildPrintHtml(`${inst.name} — Gün: ${iso}`, rows || `<tr><td colspan="4">Kayıt yok</td></tr>`);
+
+
+
+
+
+
+
+        openPrint(html);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function buildPrintHtml(title, rows) {
+        return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+    @page { size: A4 landscape; margin: 20px; }
+    body {
+        font-family: "Manrope", "Inter", system-ui, -apple-system, sans-serif;
+        background: radial-gradient(140% 160% at 20% 20%, #0d152c, #050815 55%, #030611);
+        color: #e5e7eb;
+        margin: 0;
+        padding: 16px 18px;
+    }
+    h1 {
+        font-size: 22px;
+        margin: 0 0 12px 0;
+        letter-spacing: -0.01em;
+    }
+    .meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: #cbd5e1;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+        background: rgba(15, 23, 42, 0.88);
+        border: 1px solid #1f2937;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    th, td {
+        border-bottom: 1px solid #1f2937;
+        padding: 12px 14px;
+        text-align: left;
+        font-size: 14px;
+    }
+    th {
+        background: linear-gradient(90deg, rgba(34, 211, 238, 0.18), rgba(168, 85, 247, 0.18));
+        color: #e0f2fe;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+    }
+    tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+    <div class="meta">
+        <div>${formatDateLabel(new Date())}</div>
+        <div>${new Date().toISOString().split("T")[0]}</div>
+    </div>
+    <h1>${title}</h1>
+    <table>
+        <thead>
+            <tr><th>Saat</th><th>Başlık</th><th>Danışan</th><th>Kişi</th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+    </table>
+</body>
+</html>`;
+    }
+    function openPrint(html) {
+        const w = window.open("", "_blank", "width=1200,height=800");
+        if (!w) return;
+        w.document.open();
+        w.document.write(html);
+        w.document.close();
+        w.focus();
+    }
+
+    function seedDecemberIfEmpty() {
+
+
+
+
+
+
+
+        if (bookings.length) return;
+
+
+
+
+
+
+
+        const now = new Date();
+
+
+
+
+
+
+
+        const year = now.getFullYear();
+
+
+
+
+
+
+
+        const dec = 11;
+
+
+
+
+
+
+
+        const daysInDec = new Date(year, dec + 1, 0).getDate();
+
+
+
+
+
+
+
+        const titles = ["Yeni randevu", "Kontrol", "Görüşme", "Takip", "Değerlendirme"];
+
+
+
+
+
+
+
+        const clients = ["Deniz", "Mert", "Zeynep", "Baran", "Elif", "Onur", "Dila", "Efe", "Nisa", "Ayşe"];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        for (let day = 1; day <= daysInDec; day++) {
+
+
+
+
+
+
+
+            const capacityPerInstructor = Math.floor(((endHour - startHour) * 60) / slotMinutes);
+
+
+
+
+
+
+
+            const pointer = {};
+
+
+
+
+
+
+
+            instructors.forEach((i) => (pointer[i.id] = startHour * 60));
+
+
+
+
+
+
+
+            let total = 0;
+
+
+
+
+
+
+
+            let guard = 0;
+
+
+
+
+
+
+
+            while (total < dayCapacity && guard < 400) {
+
+
+
+
+
+
+
+                const inst = instructors[guard % instructors.length];
+
+
+
+
+
+
+
+                const startMin = pointer[inst.id];
+
+
+
+
+
+
+
+                if (startMin >= endHour * 60) {
+
+
+
+
+
+
+
+                    guard += 1;
+
+
+
+
+
+
+
+                    continue;
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+                const attendees = Math.min(
+
+
+
+
+
+
+
+                    3,
+
+
+
+
+
+
+
+                    dayCapacity - total,
+
+
+
+
+
+
+
+                    Math.max(1, Math.floor(Math.random() * 3) + 1)
+
+
+
+
+
+
+
+                );
+
+
+
+
+
+
+
+                const duration = attendees * slotMinutes;
+
+
+
+
+
+
+
+                if (startMin + duration > (startHour * 60) + capacityPerInstructor * slotMinutes) {
+
+
+
+
+
+
+
+                    pointer[inst.id] = endHour * 60;
+
+
+
+
+
+
+
+                    guard += 1;
+
+
+
+
+
+
+
+                    continue;
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+                const time = minutesToTime(startMin);
+
+
+
+
+
+
+
+                bookings.push({
+
+
+
+
+
+
+
+                    id: `dec-${day}-${inst.id}-${startMin}`,
+
+
+
+
+
+
+
+                    date: toISO(new Date(Date.UTC(year, dec, day))),
+
+
+
+
+
+
+
+                    time,
+
+
+
+
+
+
+
+                    instructor: inst.id,
+
+
+
+
+
+
+
+                    title: titles[Math.floor(Math.random() * titles.length)],
+
+
+
+
+
+
+
+                    client: `${clients[Math.floor(Math.random() * clients.length)]} ${["K.", "Y.", "D.", "B.", "A."][
+
+
+
+
+
+
+
+                        Math.floor(Math.random() * 5)
+
+
+
+
+
+
+
+                    ]}`,
+
+
+
+
+
+
+
+                    attendees,
+
+
+
+
+
+
+
+                    duration,
+
+
+
+
+
+
+
+                    note: "",
+
+
+
+
+
+
+
+                });
+
+
+
+
+
+
+
+                pointer[inst.id] += duration;
+
+
+
+
+
+
+
+                total += attendees;
+
+
+
+
+
+
+
+                guard += 1;
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        saveBookings();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+})();
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+</html>
+
+
+
+
+
+
+
+
