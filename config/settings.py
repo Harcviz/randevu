@@ -32,7 +32,6 @@ SECRET_KEY = os.getenv(
     "dev-insecure-secret-key-change-me",
 )
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 PRIMARY_DOMAIN = "randevu.narinhanim.com"
