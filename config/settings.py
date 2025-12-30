@@ -35,14 +35,15 @@ SECRET_KEY = os.getenv(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-allowed_hosts_env = os.getenv("ALLOWED_HOSTS")
-if allowed_hosts_env:
-    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(",") if host.strip()]
-else:
-    render_host = os.getenv("RENDER_EXTERNAL_HOSTNAME")
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-    if render_host:
-        ALLOWED_HOSTS.append(render_host)
+PRIMARY_DOMAIN = "randevu.narinhanim.com"
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+ALLOWED_HOSTS = [host for host in os.environ.get("ALLOWED_HOSTS", "").split(",") if host]
+if not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+if PRIMARY_DOMAIN not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(PRIMARY_DOMAIN)
 
 
 # Application definition
