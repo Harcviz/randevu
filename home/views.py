@@ -1,84 +1,97 @@
-import calendar
-from datetime import date
+import json
+from datetime import date, datetime
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login as auth_login, logout as auth_logout
+from django.contrib.auth.forms import AuthenticationForm
+from .models import Instructor, Appointment
 
-from django.shortcuts import render
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            auth_login(request, form.get_user())
+            return redirect('index')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form': form})
 
+def logout_view(request):
+    auth_logout(request)
+    return redirect('login')
 
-def hello_world(request):
-    today = date.today()
-    month_days = calendar.monthrange(today.year, today.month)[1]
+@login_required
+def index(request):
+    instructors = list(Instructor.objects.values('id_name', 'name', 'badge_class', 'color'))
+    return render(request, "home.html", {
+        "instructors": instructors,
+    })
 
-    def day_or_last(day_number: int) -> int:
-        return min(day_number, month_days)
+@login_required
+def get_appointments(request):
+    appointments = Appointment.objects.all()
+    data = []
+    for app in appointments:
+        data.append({
+            "id": app.id,
+            "date": app.date.isoformat(),
+            "time": app.time.strftime("%H:%M"),
+            "instructor": app.instructor.id_name,
+            "title": app.title,
+            "client": app.client_full_name,
+            "phone": app.phone,
+            "attendees": app.attendees,
+            "duration": app.duration,
+            "note": app.note,
+        })
+    return JsonResponse(data, safe=False)
 
-    instructors = [
-        {"id": "burhan", "name": "Burhan", "badge": "bg-purple-500/20 text-purple-100", "color": "#a855f7"},
-        {"id": "selin", "name": "Selin", "badge": "bg-cyan-500/20 text-cyan-100", "color": "#22d3ee"},
-        {"id": "emre", "name": "Emre", "badge": "bg-emerald-500/20 text-emerald-100", "color": "#34d399"},
-    ]
+@csrf_exempt
+@login_required
+def save_appointment(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            instructor = Instructor.objects.get(id_name=data['instructor'])
+            
+            # Parse date and time
+            app_date = datetime.strptime(data['date'], '%Y-%m-%d').date()
+            app_time = datetime.strptime(data['time'], '%H:%M').time()
+            
+            app_id = data.get('id')
+            if app_id and not str(app_id).startswith('bk-'): # Existing appointment
+                appointment = Appointment.objects.get(id=app_id)
+            else:
+                appointment = Appointment(instructor=instructor)
 
+            appointment.instructor = instructor
+            appointment.date = app_date
+            appointment.time = app_time
+            appointment.title = data.get('title', 'Yeni randevu')
+            appointment.client_full_name = data.get('client', '')
+            appointment.phone = data.get('phone', '')
+            appointment.attendees = int(data.get('attendees', 1))
+            appointment.duration = int(data.get('duration', 15))
+            appointment.note = data.get('note', '')
+            
+            appointment.save()
+            
+            return JsonResponse({"status": "success", "id": appointment.id})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid method"}, status=405)
 
-
-    sample_bookings = [
-        {
-            "date": date(today.year, today.month, day_or_last(5)).isoformat(),
-            "time": "09:30",
-            "instructor": "burhan",
-            "title": "İlk görüşme",
-            "client": "Ayşe K.",
-            "duration": 30,
-        },
-        {
-            "date": date(today.year, today.month, day_or_last(5)).isoformat(),
-            "time": "11:00",
-            "instructor": "selin",
-            "title": "Strateji seansı",
-            "client": "Mert D.",
-            "duration": 45,
-        },
-        {
-            "date": date(today.year, today.month, day_or_last(12)).isoformat(),
-            "time": "14:15",
-            "instructor": "emre",
-            "title": "Kontrol ve çözüm",
-            "client": "Zeynep L.",
-            "duration": 30,
-        },
-        {
-            "date": date(today.year, today.month, day_or_last(18)).isoformat(),
-            "time": "10:15",
-            "instructor": "burhan",
-            "title": "Program takibi",
-            "client": "Baran S.",
-            "duration": 15,
-        },
-        {
-            "date": date(today.year, today.month, day_or_last(25)).isoformat(),
-            "time": "16:00",
-            "instructor": "selin",
-            "title": "Premium danışmanlık",
-            "client": "Deniz Y.",
-            "duration": 60,
-        },
-    ]
-
-
-    highlights = [
-        {
-            "title": "Akıllı Randevu Akışı",
-            "desc": "Günü seç, 15 dk slotları ve hocayı belirle, tek ekranda kaydet.",
-        },
-        {"title": "Renkli Takip", "desc": "Her hoca için ayrı renk; yoğunluk ve uygunluk anında görünür."},
-        {"title": "Günlük Döküm", "desc": "Seçilen günün randevuları otomatik listelenir; filtrele ve paylaş."},
-        {"title": "Hızlı Aksiyon", "desc": "Randevu oluşturma, aktarım ve iptal akışları dakikalar sürmez."},
-    ]
-    return render(
-        request,
-        "home.html",
-        {
-            "today": today,
-            "instructors": instructors,
-            "bookings": sample_bookings,
-            "highlights": highlights,
-        },
-    )
+@csrf_exempt
+@login_required
+def delete_appointment(request, app_id):
+    if request.method == "DELETE":
+        try:
+            Appointment.objects.filter(id=app_id).delete()
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid method"}, status=405)
