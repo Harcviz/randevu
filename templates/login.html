@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Giriş Yap - Randevum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap");
+
+        :root {
+            --bg: #080c18;
+            --panel: #0f172a;
+            --panel-2: #0b1224;
+            --border: #1f2937;
+            --text: #e5e7eb;
+            --accent: #22d3ee;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: radial-gradient(130% 140% at 20% 20%, #11162a, #050815 55%, #030611);
+            color: var(--text);
+            font-family: "Manrope", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-panel {
+            background: linear-gradient(155deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input {
+            width: 100%;
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            outline: none;
+            transition: all 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #22d3ee, #a855f7);
+            border: none;
+            color: #0b0f1a;
+            border-radius: 12px;
+            padding: 0.875rem;
+            font-weight: 800;
+            width: 100%;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-panel">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold tracking-tight mb-2">Randevum</h1>
+            <p class="text-slate-400 text-sm">Yönetici Girişi</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="bg-red-500/10 border border-red-500/50 text-red-400 p-3 rounded-xl text-xs mb-4">
+                    Kullanıcı adı veya şifre hatalı.
+                </div>
+            {% endif %}
+            
+            <div>
+                <label class="text-xs font-bold text-slate-500 uppercase ml-1">Kullanıcı Adı</label>
+                {{ form.username }}
+            </div>
+            
+            <div class="mt-4">
+                <label class="text-xs font-bold text-slate-500 uppercase ml-1">Şifre</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="btn-primary">Giriş Yap</button>
+        </form>
+    </div>
+</body>
+</html>
