@@ -3,11 +3,19 @@ from django.db import models
 class Instructor(models.Model):
     id_name = models.CharField(max_length=50, unique=True) # e.g., 'burhan'
     name = models.CharField(max_length=100)
-    badge_class = models.CharField(max_length=100)
-    color = models.CharField(max_length=7) # hex color
+    badge_class = models.CharField(max_length=100, blank=True)
+    color = models.CharField(max_length=7, default='#22d3ee') # hex color
 
     def __str__(self):
         return self.name
+
+class GlobalSettings(models.Model):
+    start_time = models.TimeField(default="09:00")
+    end_time = models.TimeField(default="17:00")
+
+    class Meta:
+        verbose_name = "Global Settings"
+        verbose_name_plural = "Global Settings"
 
 class Appointment(models.Model):
     instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='appointments')

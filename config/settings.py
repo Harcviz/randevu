@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -91,13 +92,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DATABASE_URL = "postgresql://narin_randevudb_user:yMNx7dJSLseWrmvGkMdsstkJGvWjXm02@dpg-d5d8ff95pdvs73d582dg-a.oregon-postgres.render.com/narin_randevudb"
 DATABASES = {
-    "default": parse_database_url(os.getenv("DATABASE_URL", ""))
-    if os.getenv("DATABASE_URL")
-    else {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 }
 
 

@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Instructor, Appointment
+from .models import Instructor, Appointment, GlobalSettings
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -27,9 +27,55 @@ def logout_view(request):
 @login_required
 def index(request):
     instructors = list(Instructor.objects.values('id_name', 'name', 'badge_class', 'color'))
+    settings = GlobalSettings.objects.first()
+    if not settings:
+        settings = GlobalSettings.objects.create(start_time="09:00", end_time="17:00")
+    
+    start_time = settings.start_time
+    end_time = settings.end_time
+    
+    if not isinstance(start_time, str):
+        start_time = start_time.strftime("%H:%M")
+    if not isinstance(end_time, str):
+        end_time = end_time.strftime("%H:%M")
+
     return render(request, "home.html", {
         "instructors": instructors,
+        "settings": {
+            "start_time": start_time,
+            "end_time": end_time,
+        }
     })
+
+@csrf_exempt
+@login_required
+def save_settings(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            settings = GlobalSettings.objects.first()
+            if not settings:
+                settings = GlobalSettings()
+            
+            settings.start_time = data.get('start_time', '09:00')
+            settings.end_time = data.get('end_time', '17:00')
+            settings.save()
+
+            # Update instructors
+            instructor_data = data.get('instructors', [])
+            for inst in instructor_data:
+                Instructor.objects.update_or_create(
+                    id_name=inst['id_name'],
+                    defaults={
+                        'name': inst['name'],
+                        'color': inst['color']
+                    }
+                )
+            
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid method"}, status=405)
 
 @login_required
 def get_appointments(request):

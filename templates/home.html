@@ -9,525 +9,604 @@
         @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap");
 
         :root {
-            --bg: #080c18;
-            --panel: #0f172a;
-            --panel-2: #0b1224;
-            --panel-3: #101827;
-            --border: #1f2937;
-            --text: #e5e7eb;
-            --muted: #a3adc2;
-            --accent: #22d3ee;
-            --emerald: #22c55e;
-            --shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
-            --day-size: 100px;
+            --bg: #0f111a;
+            --panel: #161b2b;
+            --panel-2: #1c233a;
+            --border: #2d3748;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --accent: #a855f7;
+            --cyan: #22d3ee;
+            --emerald: #10b981;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background: radial-gradient(130% 140% at 20% 20%, #11162a, #050815 55%, #030611);
+            background-color: var(--bg);
             color: var(--text);
             font-family: "Manrope", sans-serif;
-            line-height: 1.5;
-        }
-
-        .page {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 1rem;
         }
 
         .panel {
-            background: linear-gradient(155deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            background-color: var(--panel);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.25rem;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 1.5rem;
         }
 
-        .btn, .btn-ghost {
+        .input-field {
+            background-color: #0f111a;
             border: 1px solid var(--border);
-            background: var(--panel-2);
-            color: var(--text);
-            border-radius: 12px;
+            border-radius: 8px;
             padding: 0.6rem 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .btn:hover, .btn-ghost:hover {
-            transform: translateY(-1px);
-            background: var(--panel-3);
-            border-color: var(--accent);
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22d3ee, #a855f7);
-            border: none;
-            color: #0b0f1a;
-        }
-
-        .btn-danger {
-            background: rgba(248, 113, 113, 0.1);
-            color: #fecdd3;
-            border-color: rgba(248, 113, 113, 0.3);
-        }
-
-        input, select, textarea {
             width: 100%;
-            background: var(--panel-2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            border-radius: 12px;
-            padding: 0.75rem 1rem;
+            color: white;
             outline: none;
-            transition: all 0.2s ease;
         }
 
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+        .input-field:focus {
+            border-color: var(--cyan);
         }
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
+        .btn-save {
+            background: linear-gradient(90deg, #22d3ee, #a855f7);
+            color: #0f111a;
+            font-weight: 800;
+            padding: 0.6rem 1.5rem;
+            border-radius: 10px;
+            transition: opacity 0.2s;
         }
 
-        .day-cell {
-            aspect-ratio: 1/1;
+        .btn-save:hover {
+            opacity: 0.9;
+        }
+
+        .calendar-day {
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 0.5rem;
-            background: var(--panel-2);
+            min-height: 80px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.2s;
+            background: #161b2b;
         }
 
-        .day-cell:hover {
-            border-color: var(--accent);
-            transform: scale(1.02);
+        .calendar-day:hover {
+            border-color: var(--cyan);
         }
 
-        .day-cell.selected {
-            border-color: var(--accent);
-            background: rgba(34, 211, 238, 0.05);
-        }
-
-        .day-cell.today {
+        .calendar-day.selected {
             border-color: var(--emerald);
-        }
-
-        .day-cell::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--accent);
-            transform: scaleX(var(--fill, 0));
-            transition: transform 0.3s ease;
+            box-shadow: 0 0 0 1px var(--emerald);
         }
 
         .dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
+            display: inline-block;
         }
 
-        @media (max-width: 768px) {
-            .calendar-grid {
-                gap: 4px;
-            }
-            .day-cell {
-                padding: 4px;
-            }
-            .day-number {
-                font-size: 0.8rem;
-            }
-            .day-week {
-                display: none;
-            }
+        @media print {
+            .no-print { display: none; }
+            body { background: white; color: black; }
+            .panel { border: none; background: white; }
         }
     </style>
 </head>
-<body>
-<div class="page">
-    <!-- Header -->
-    <header class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
-        <div class="text-center md:text-left">
-            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Randevum</h1>
-            <p class="text-slate-400 text-sm">Profesyonel Randevu Takip Sistemi</p>
-        </div>
-        <div class="flex items-center gap-3">
-            <div class="panel py-2 px-4 flex items-center gap-4">
-                <span id="live-date" class="text-sm font-bold">-- --</span>
-                <span id="live-time" class="text-sm font-mono text-cyan-400">--:--:--</span>
-            </div>
-            <a href="{% url 'logout' %}" class="btn-ghost p-2 text-red-400 hover:bg-red-500/10 border-red-500/20" title="Çıkış Yap">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            </a>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto space-y-8">
         
-        <!-- Left Column: Calendar -->
-        <div class="lg:col-span-8 space-y-6">
-            <section class="panel">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 id="month-label" class="text-xl font-bold">Aralık 2025</h2>
-                    <div class="flex gap-2">
-                        <button id="prev-month" class="btn-ghost p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                        </button>
-                        <button id="next-month" class="btn-ghost p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                        </button>
-                    </div>
+        <!-- Header -->
+        <header class="flex justify-between items-center no-print">
+            <div class="flex items-center gap-4">
+                <div class="bg-slate-800 px-3 py-1 rounded-full text-xs font-bold flex gap-4">
+                    <span id="live-date">-- --</span>
+                    <span id="live-time" class="text-slate-400">--:--:--</span>
                 </div>
-                
-                <div class="grid grid-cols-7 gap-2 mb-2 text-center text-xs font-bold text-slate-500">
-                    <div>PZT</div><div>SAL</div><div>ÇAR</div><div>PER</div><div>CUM</div><div>CTS</div><div>PAZ</div>
-                </div>
-                <div id="calendar-grid" class="calendar-grid"></div>
-            </section>
+            </div>
+            <h1 class="text-2xl font-extrabold tracking-tighter">Randevum</h1>
+        </header>
 
-            <!-- Daily List -->
-            <section class="panel">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <h2 class="text-lg font-bold">Günlük Randevular</h2>
-                        <p id="selected-date-label" class="text-sm text-slate-400">-- -- ----</p>
-                    </div>
-                    <button id="print-day" class="btn-ghost text-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
-                        Yazdır
-                    </button>
-                </div>
-                <div id="booking-list" class="space-y-3">
-                    <!-- Bookings will be injected here -->
-                </div>
-            </section>
-        </div>
-
-        <!-- Right Column: Form -->
-        <div class="lg:col-span-4 space-y-6">
-            <section class="panel sticky top-4">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-lg font-bold">Yeni Randevu</h2>
-                    <span id="day-availability" class="text-xs font-bold px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400">-- boş</span>
-                </div>
-                
-                <form id="appointment-form" class="space-y-4">
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Hoca</label>
-                        <select id="instructor-select" required></select>
-                    </div>
-                    
+        <!-- Settings Section -->
+        <section class="panel no-print">
+            <h2 class="text-sm font-bold text-slate-400 uppercase mb-4">Ayarlar</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Saat</label>
-                            <select id="slot-select" required></select>
+                            <label class="text-xs font-bold text-slate-500 block mb-1">Başlangıç saati</label>
+                            <input type="time" id="settings-start" class="input-field" value="{{ settings.start_time }}">
                         </div>
                         <div>
-                            <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Kişi Sayısı</label>
-                            <input type="number" id="attendees" min="1" max="10" value="1" required />
+                            <label class="text-xs font-bold text-slate-500 block mb-1">Bitiş saati</label>
+                            <input type="time" id="settings-end" class="input-field" value="{{ settings.end_time }}">
                         </div>
                     </div>
+                    <div id="instructor-settings" class="space-y-3">
+                        <!-- Instructor inputs will be here -->
+                    </div>
+                    <button id="save-settings-btn" class="btn-save text-sm">Ayarları kaydet</button>
+                </div>
+            </div>
+        </section>
 
+        <!-- Working Hours Display -->
+        <section class="panel no-print">
+            <h2 class="text-xs font-bold text-slate-500 uppercase mb-4">YAŞAM KOÇU ÇALIŞMA SAATLERİ</h2>
+            <div id="working-hours-list" class="flex flex-wrap gap-8">
+                <!-- Working hours will be here -->
+            </div>
+        </section>
+
+        <!-- Calendar Section -->
+        <section class="panel">
+            <div class="flex justify-between items-center mb-6 no-print">
+                <div>
+                    <h2 class="text-xs font-bold text-slate-500 uppercase">AY GÖRÜNÜMÜ</h2>
+                    <h3 id="month-label" class="text-xl font-extrabold">Ocak 2026</h3>
+                </div>
+                <div class="flex gap-2">
+                    <button id="prev-month" class="bg-slate-800 px-4 py-2 rounded-lg text-sm font-bold">Önceki</button>
+                    <button id="next-month" class="bg-slate-800 px-4 py-2 rounded-lg text-sm font-bold">Sonraki</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-7 gap-2 mb-2 text-center text-[10px] font-bold text-slate-500 no-print">
+                <div>PZT</div><div>SAL</div><div>ÇAR</div><div>PER</div><div>CUM</div><div>CTS</div><div>PAZ</div>
+            </div>
+            <div id="calendar-grid" class="grid grid-cols-7 gap-2">
+                <!-- Calendar days will be here -->
+            </div>
+            <div class="mt-4 flex items-center gap-2 text-xs text-slate-500 no-print">
+                <span class="dot bg-cyan-400"></span> randevulu gün
+            </div>
+        </section>
+
+        <!-- Appointment Form Section -->
+        <section class="panel no-print">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-xs font-bold text-slate-500 uppercase">GÜN SEÇİMİ</h2>
+                    <h3 id="selected-date-display" class="text-xl font-extrabold">-- -- ----</h3>
+                </div>
+                <div id="day-stats" class="bg-emerald-500/10 text-emerald-400 px-4 py-2 rounded-full text-sm font-bold">
+                    0 dolu • 72 boş
+                </div>
+            </div>
+
+            <form id="appointment-form" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Randevu Başlığı</label>
-                        <input type="text" id="title-input" placeholder="Örn: İlk Görüşme" required />
+                        <label class="text-xs font-bold text-slate-500 block mb-1">Hoca seç</label>
+                        <select id="instructor-select" class="input-field" required></select>
                     </div>
-
                     <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Danışan Ad Soyad</label>
-                        <input type="text" id="full-name" placeholder="Ad Soyad" required />
+                        <label class="text-xs font-bold text-slate-500 block mb-1">Saat aralığı (15 dk)</label>
+                        <select id="slot-select" class="input-field" required></select>
                     </div>
-
                     <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Telefon</label>
-                        <input type="tel" id="phone" placeholder="05xx xxx xx xx" required />
+                        <label class="text-xs font-bold text-slate-500 block mb-1">Danışan sayısı (15 dk / kişi)</label>
+                        <input type="number" id="attendees" class="input-field" min="1" value="1" required>
                     </div>
+                </div>
 
+                <div>
+                    <label class="text-xs font-bold text-slate-500 block mb-1">Randevu başlığı</label>
+                    <input type="text" id="title-input" class="input-field" placeholder="Örn: Diyet kontrol" required>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Notlar</label>
-                        <textarea id="note-input" rows="3" placeholder="Ek bilgiler..."></textarea>
+                        <label class="text-xs font-bold text-slate-500 block mb-1">Ad Soyad</label>
+                        <input type="text" id="full-name" class="input-field" placeholder="Ad Soyad" required>
                     </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 block mb-1">Telefon</label>
+                        <input type="text" id="phone" class="input-field" placeholder="05xx xxx xx xx" required>
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-500 block mb-1">Not (opsiyonel)</label>
+                        <textarea id="note-input" class="input-field" rows="1" placeholder="Danışan adı, amaç, hatırlatma..."></textarea>
+                    </div>
+                </div>
 
-                    <div class="flex gap-2 pt-2">
-                        <button type="submit" id="save-btn" class="btn btn-primary flex-1">Kaydet</button>
-                        <button type="button" id="reset-btn" class="btn-ghost flex-1">Temizle</button>
-                    </div>
-                </form>
-            </section>
-        </div>
+                <div class="flex gap-2">
+                    <button type="submit" id="save-btn" class="btn-save text-sm">Kaydet</button>
+                    <button type="button" id="reset-btn" class="bg-slate-800 px-6 py-2 rounded-lg text-sm font-bold">Temizle</button>
+                </div>
+                <p class="text-[10px] text-slate-500">Veriler tarayıcı hafızasında saklanır; sayfa yenilenince silinmez.</p>
+            </form>
+        </section>
+
+        <!-- Daily Appointments List -->
+        <section class="panel">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-xs font-bold text-slate-500 uppercase">GÜNLÜK DÖKÜM</h2>
+                    <h3 class="text-xl font-extrabold">Seçilen günün randevuları</h3>
+                </div>
+                <div id="print-date-display" class="bg-slate-800 px-4 py-2 rounded-lg text-xs font-bold">
+                    Gün: -- -- ----
+                </div>
+            </div>
+            <div id="booking-list" class="text-sm text-slate-400">
+                Henüz randevu yok. Gün ve hoca seçip 15 dk slot ekleyebilirsin.
+            </div>
+        </section>
+
+        <!-- Instructor Summary -->
+        <section class="panel no-print">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-extrabold">Randevular</h2>
+                <div class="flex gap-4 items-center">
+                    <span id="summary-hours" class="bg-slate-800 px-4 py-1 rounded-full text-xs font-bold">09:00 - 17:00</span>
+                    <button onclick="window.print()" class="bg-slate-800 px-4 py-2 rounded-lg text-sm font-bold">Günü yazdır</button>
+                </div>
+            </div>
+            <div id="instructor-summary-list" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Instructor summary cards will be here -->
+            </div>
+        </section>
+
     </div>
-</div>
 
-{{ instructors|json_script:"instructor-data" }}
+    {{ instructors|json_script:"instructor-data" }}
+    {{ settings|json_script:"settings-data" }}
 
-<script>
-(function() {
-    const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-    const weekdayNames = ["PZT", "SAL", "ÇAR", "PER", "CUM", "CTS", "PAZ"];
-    const slotMinutes = 15;
-    const startHour = 9;
-    const endHour = 18;
-    const dayCapacity = ((endHour - startHour) * 60) / slotMinutes;
-
-    const instructors = JSON.parse(document.getElementById("instructor-data").textContent || "[]");
-    let bookings = [];
-    let selectedDate = new Date();
-    let currentMonth = selectedDate.getMonth();
-    let currentYear = selectedDate.getFullYear();
-    let editingId = null;
-
-    // Initialization
-    async function init() {
-        renderInstructorSelect();
-        updateClock();
-        setInterval(updateClock, 1000);
-        await loadBookings();
-        selectDate(new Date());
+    <script>
+    (function() {
+        const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+        const instructors = JSON.parse(document.getElementById("instructor-data").textContent || "[]");
+        const globalSettings = JSON.parse(document.getElementById("settings-data").textContent || '{"start_time":"09:00","end_time":"17:00"}');
         
-        // Event Listeners
-        document.getElementById("prev-month").onclick = () => changeMonth(-1);
-        document.getElementById("next-month").onclick = () => changeMonth(1);
-        document.getElementById("appointment-form").onsubmit = saveAppointment;
-        document.getElementById("reset-btn").onclick = resetForm;
-        document.getElementById("instructor-select").onchange = renderSlotOptions;
-        document.getElementById("attendees").oninput = renderSlotOptions;
-        document.getElementById("print-day").onclick = printDay;
-    }
+        let bookings = [];
+        let selectedDate = new Date();
+        let currentMonth = selectedDate.getMonth();
+        let currentYear = selectedDate.getFullYear();
+        let editingId = null;
 
-    // API Calls
-    async function loadBookings() {
-        try {
-            const response = await fetch('/api/appointments/');
-            bookings = await response.json();
+        async function init() {
+            renderInstructorSettings();
+            renderWorkingHours();
+            renderInstructorSelect();
+            updateClock();
+            setInterval(updateClock, 1000);
+            await loadBookings();
+            selectDate(new Date());
+
+            document.getElementById("prev-month").onclick = () => changeMonth(-1);
+            document.getElementById("next-month").onclick = () => changeMonth(1);
+            document.getElementById("appointment-form").onsubmit = saveAppointment;
+            document.getElementById("reset-btn").onclick = resetForm;
+            document.getElementById("save-settings-btn").onclick = saveSettings;
+            document.getElementById("instructor-select").onchange = renderSlotOptions;
+            document.getElementById("attendees").oninput = renderSlotOptions;
+        }
+
+        async function loadBookings() {
+            try {
+                const response = await fetch('/api/appointments/');
+                bookings = await response.json();
+                renderCalendar();
+                renderBookings();
+                renderInstructorSummary();
+            } catch (e) { console.error(e); }
+        }
+
+        function renderInstructorSettings() {
+            const container = document.getElementById("instructor-settings");
+            container.innerHTML = "";
+            
+            // Ensure we have at least the 3 instructors from the image if none exist
+            const defaultInstructors = [
+                { id_name: 'burhan', name: 'Burhan', color: '#22d3ee' },
+                { id_name: 'selin', name: 'Selin', color: '#a855f7' },
+                { id_name: 'emre', name: 'Emre', color: '#84cc16' }
+            ];
+
+            const list = instructors.length > 0 ? instructors : defaultInstructors;
+
+            list.forEach(inst => {
+                const div = document.createElement("div");
+                div.className = "flex gap-4 items-center";
+                div.innerHTML = `
+                    <span class="text-xs font-bold text-slate-500 w-16">${inst.name}</span>
+                    <input type="text" class="input-field inst-name" data-id="${inst.id_name}" value="${inst.name}">
+                    <input type="color" class="w-24 h-10 rounded bg-transparent border-none cursor-pointer inst-color" value="${inst.color}">
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        async function saveSettings() {
+            const start = document.getElementById("settings-start").value;
+            const end = document.getElementById("settings-end").value;
+            const instInputs = document.querySelectorAll("#instructor-settings > div");
+            const instData = Array.from(instInputs).map(div => ({
+                id_name: div.querySelector(".inst-name").dataset.id,
+                name: div.querySelector(".inst-name").value,
+                color: div.querySelector(".inst-color").value
+            }));
+
+            try {
+                const response = await fetch('/api/settings/save/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        start_time: start,
+                        end_time: end,
+                        instructors: instData
+                    })
+                });
+                if (response.ok) location.reload();
+            } catch (e) { console.error(e); }
+        }
+
+        function renderWorkingHours() {
+            const container = document.getElementById("working-hours-list");
+            container.innerHTML = "";
+            instructors.forEach(inst => {
+                const div = document.createElement("div");
+                div.className = "flex items-center gap-2 text-xs font-bold";
+                div.innerHTML = `
+                    <span class="dot" style="background:${inst.color}"></span>
+                    <span>${inst.name}</span>
+                    <span class="text-slate-500 ml-4">${globalSettings.start_time} - ${globalSettings.end_time}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderCalendar() {
+            const grid = document.getElementById("calendar-grid");
+            grid.innerHTML = "";
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const startWeek = (firstDay.getDay() + 6) % 7;
+            
+            document.getElementById("month-label").textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            const slotMinutes = 15;
+            const [sH, sM] = globalSettings.start_time.split(':').map(Number);
+            const [eH, eM] = globalSettings.end_time.split(':').map(Number);
+            const totalMinutes = (eH * 60 + eM) - (sH * 60 + sM);
+            const dayCapacity = (totalMinutes / slotMinutes) * instructors.length;
+
+            for (let i = 0; i < startWeek; i++) grid.appendChild(document.createElement("div"));
+
+            for (let day = 1; day <= lastDay; day++) {
+                const dateObj = new Date(currentYear, currentMonth, day);
+                const iso = toISO(dateObj);
+                const cell = document.createElement("div");
+                cell.className = `calendar-day ${iso === toISO(selectedDate) ? 'selected' : ''}`;
+                
+                const dayBookings = bookings.filter(b => b.date === iso);
+                const busyCount = dayBookings.reduce((sum, b) => sum + (b.attendees || 1), 0);
+                const percent = dayCapacity > 0 ? Math.round((busyCount / dayCapacity) * 100) : 0;
+
+                cell.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <span class="text-sm font-bold">${day}</span>
+                        <span class="text-[10px] text-slate-500 uppercase">${["PAZ","PZT","SAL","ÇAR","PER","CUM","CTS"][dateObj.getDay()]}</span>
+                    </div>
+                    <div class="mt-2 text-[10px] font-bold text-slate-400">
+                        ${busyCount}/${dayCapacity} (${percent}%)
+                    </div>
+                    ${dayBookings.length > 0 ? `<div class="mt-1"><span class="dot bg-cyan-400"></span></div>` : ''}
+                `;
+
+                cell.onclick = () => selectDate(dateObj);
+                grid.appendChild(cell);
+            }
+        }
+
+        function selectDate(date) {
+            selectedDate = date;
+            const iso = toISO(date);
+            document.getElementById("selected-date-display").textContent = `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+            document.getElementById("print-date-display").textContent = `Gün: ${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+            
             renderCalendar();
             renderBookings();
-        } catch (e) { console.error("Yükleme hatası:", e); }
-    }
+            renderSlotOptions();
+            renderInstructorSummary();
+        }
 
-    async function saveAppointment(e) {
-        e.preventDefault();
-        const record = {
-            id: editingId,
-            instructor: document.getElementById("instructor-select").value,
-            date: toISO(selectedDate),
-            time: document.getElementById("slot-select").value,
-            attendees: document.getElementById("attendees").value,
-            title: document.getElementById("title-input").value,
-            client: document.getElementById("full-name").value,
-            phone: document.getElementById("phone").value,
-            note: document.getElementById("note-input").value,
-            duration: document.getElementById("attendees").value * slotMinutes
+        function renderBookings() {
+            const list = document.getElementById("booking-list");
+            list.innerHTML = "";
+            const iso = toISO(selectedDate);
+            const dayBookings = bookings.filter(b => b.date === iso).sort((a, b) => a.time.localeCompare(b.time));
+
+            const slotMinutes = 15;
+            const [sH, sM] = globalSettings.start_time.split(':').map(Number);
+            const [eH, eM] = globalSettings.end_time.split(':').map(Number);
+            const totalMinutes = (eH * 60 + eM) - (sH * 60 + sM);
+            const dayCapacity = (totalMinutes / slotMinutes) * instructors.length;
+            const busy = dayBookings.reduce((sum, b) => sum + (b.attendees || 1), 0);
+            
+            document.getElementById("day-stats").textContent = `${busy} dolu • ${dayCapacity - busy} boş`;
+
+            if (dayBookings.length === 0) {
+                list.innerHTML = "Henüz randevu yok. Gün ve hoca seçip 15 dk slot ekleyebilirsin.";
+                return;
+            }
+
+            dayBookings.forEach(b => {
+                const inst = instructors.find(i => i.id_name === b.instructor);
+                const div = document.createElement("div");
+                div.className = "flex justify-between items-center p-3 border-b border-slate-800 group";
+                div.innerHTML = `
+                    <div class="flex gap-4 items-center">
+                        <span class="font-bold text-white">${b.time}</span>
+                        <span class="dot" style="background:${inst?.color}"></span>
+                        <div>
+                            <div class="font-bold text-slate-200">${b.title}</div>
+                            <div class="text-xs text-slate-500">${b.client} • ${inst?.name} • ${b.attendees} kişi</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 opacity-0 group-hover:opacity-100">
+                        <button onclick="editBooking(${b.id})" class="text-cyan-400 hover:underline">Düzenle</button>
+                        <button onclick="deleteBooking(${b.id})" class="text-red-400 hover:underline">Sil</button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function renderInstructorSummary() {
+            const container = document.getElementById("instructor-summary-list");
+            container.innerHTML = "";
+            const iso = toISO(selectedDate);
+            
+            const slotMinutes = 15;
+            const [sH, sM] = globalSettings.start_time.split(':').map(Number);
+            const [eH, eM] = globalSettings.end_time.split(':').map(Number);
+            const totalMinutes = (eH * 60 + eM) - (sH * 60 + sM);
+            const instCapacity = totalMinutes / slotMinutes;
+
+            document.getElementById("summary-hours").textContent = `${globalSettings.start_time} - ${globalSettings.end_time}`;
+
+            instructors.forEach(inst => {
+                const instBookings = bookings.filter(b => b.date === iso && b.instructor === inst.id_name);
+                const busy = instBookings.reduce((sum, b) => sum + (b.attendees || 1), 0);
+                
+                const div = document.createElement("div");
+                div.className = "border border-slate-800 rounded-xl p-4 flex justify-between items-center";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="dot" style="background:${inst.color}"></span>
+                        <span class="font-bold">${inst.name}</span>
+                        <span class="bg-cyan-400/10 text-cyan-400 px-2 py-0.5 rounded text-[10px] font-bold">${instCapacity - busy} boş</span>
+                    </div>
+                    <button onclick="printInstructor('${inst.id_name}')" class="text-xs font-bold text-slate-400 hover:text-white">Yazdır</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderSlotOptions() {
+            const select = document.getElementById("slot-select");
+            const instructorId = document.getElementById("instructor-select").value;
+            const attendees = parseInt(document.getElementById("attendees").value || 1);
+            const iso = toISO(selectedDate);
+            
+            const taken = bookings
+                .filter(b => b.date === iso && b.instructor === instructorId && b.id !== editingId)
+                .map(b => ({ start: timeToMins(b.time), end: timeToMins(b.time) + b.duration }));
+
+            const slotMinutes = 15;
+            const [sH, sM] = globalSettings.start_time.split(':').map(Number);
+            const [eH, eM] = globalSettings.end_time.split(':').map(Number);
+            const startMins = sH * 60 + sM;
+            const endMins = eH * 60 + eM;
+
+            select.innerHTML = "";
+            for (let m = startMins; m < endMins; m += slotMinutes) {
+                const time = minsToTime(m);
+                const end = m + (attendees * slotMinutes);
+                const isTaken = taken.some(t => m < t.end && end > t.start);
+                const isOver = end > endMins;
+
+                const opt = document.createElement("option");
+                opt.value = time;
+                opt.textContent = time;
+                opt.disabled = isTaken || isOver;
+                select.appendChild(opt);
+            }
+        }
+
+        function renderInstructorSelect() {
+            const select = document.getElementById("instructor-select");
+            select.innerHTML = instructors.map(i => `<option value="${i.id_name}">${i.name}</option>`).join("");
+        }
+
+        async function saveAppointment(e) {
+            e.preventDefault();
+            const record = {
+                id: editingId,
+                instructor: document.getElementById("instructor-select").value,
+                date: toISO(selectedDate),
+                time: document.getElementById("slot-select").value,
+                attendees: document.getElementById("attendees").value,
+                title: document.getElementById("title-input").value,
+                client: document.getElementById("full-name").value,
+                phone: document.getElementById("phone").value,
+                note: document.getElementById("note-input").value,
+                duration: document.getElementById("attendees").value * 15
+            };
+
+            try {
+                const response = await fetch('/api/appointments/save/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(record)
+                });
+                if (response.ok) {
+                    editingId = null;
+                    await loadBookings();
+                    resetForm();
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        window.editBooking = (id) => {
+            const b = bookings.find(x => x.id === id);
+            if (!b) return;
+            editingId = id;
+            document.getElementById("instructor-select").value = b.instructor;
+            document.getElementById("title-input").value = b.title;
+            document.getElementById("attendees").value = b.attendees;
+            document.getElementById("full-name").value = b.client;
+            document.getElementById("phone").value = b.phone;
+            document.getElementById("note-input").value = b.note;
+            document.getElementById("save-btn").textContent = "Güncelle";
+            renderSlotOptions();
+            document.getElementById("slot-select").value = b.time;
         };
 
-        try {
-            const response = await fetch('/api/appointments/save/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(record)
-            });
-            const res = await response.json();
-            if (res.status === 'success') {
-                editingId = null;
-                await loadBookings();
-                resetForm();
-            } else { alert("Hata: " + res.message); }
-        } catch (e) { console.error("Kayıt hatası:", e); }
-    }
+        window.deleteBooking = async (id) => {
+            if (!confirm("Silmek istediğine emin misin?")) return;
+            await fetch(`/api/appointments/delete/${id}/`, { method: 'DELETE' });
+            await loadBookings();
+        };
 
-    async function deleteAppointment(id) {
-        if (!confirm("Bu randevuyu silmek istediğinize emin misiniz?")) return;
-        try {
-            const response = await fetch(`/api/appointments/delete/${id}/`, { method: 'DELETE' });
-            const res = await response.json();
-            if (res.status === 'success') await loadBookings();
-        } catch (e) { console.error("Silme hatası:", e); }
-    }
-
-    // UI Rendering
-    function renderCalendar() {
-        const grid = document.getElementById("calendar-grid");
-        grid.innerHTML = "";
-        const firstDay = new Date(currentYear, currentMonth, 1);
-        const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
-        const startWeek = (firstDay.getDay() + 6) % 7;
-        
-        document.getElementById("month-label").textContent = `${monthNames[currentMonth]} ${currentYear}`;
-
-        for (let i = 0; i < startWeek; i++) grid.appendChild(document.createElement("div"));
-
-        for (let day = 1; day <= lastDay; day++) {
-            const dateObj = new Date(currentYear, currentMonth, day);
-            const iso = toISO(dateObj);
-            const cell = document.createElement("div");
-            cell.className = `day-cell ${iso === toISO(selectedDate) ? 'selected' : ''} ${iso === toISO(new Date()) ? 'today' : ''}`;
-            
-            const dayBookings = bookings.filter(b => b.date === iso);
-            const busyCount = dayBookings.reduce((sum, b) => sum + (b.attendees || 1), 0);
-            cell.style.setProperty("--fill", busyCount / dayCapacity);
-
-            cell.innerHTML = `<span class="day-number font-bold">${day}</span>`;
-            
-            const dots = document.createElement("div");
-            dots.className = "flex gap-1 mt-auto";
-            const colors = [...new Set(dayBookings.map(b => instructors.find(i => i.id_name === b.instructor)?.color))];
-            colors.forEach(c => {
-                if (c) dots.innerHTML += `<span class="dot" style="background:${c}"></span>`;
-            });
-            cell.appendChild(dots);
-
-            cell.onclick = () => selectDate(dateObj);
-            grid.appendChild(cell);
-        }
-    }
-
-    function renderBookings() {
-        const list = document.getElementById("booking-list");
-        list.innerHTML = "";
-        const iso = toISO(selectedDate);
-        const dayBookings = bookings.filter(b => b.date === iso).sort((a, b) => a.time.localeCompare(b.time));
-
-        const busy = dayBookings.reduce((sum, b) => sum + (b.attendees || 1), 0);
-        document.getElementById("day-availability").textContent = `${dayCapacity - busy} slot boş`;
-
-        if (dayBookings.length === 0) {
-            list.innerHTML = `<div class="text-center py-8 text-slate-500 text-sm">Bu gün için randevu bulunmuyor.</div>`;
-            return;
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar();
         }
 
-        dayBookings.forEach(b => {
-            const inst = instructors.find(i => i.id_name === b.instructor);
-            const card = document.createElement("div");
-            card.className = "panel bg-slate-800/40 border-slate-700/50 p-4 flex justify-between items-center group";
-            card.innerHTML = `
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-xl flex flex-col items-center justify-center text-xs font-bold" style="background:${inst?.color}20; color:${inst?.color}">
-                        <span>${b.time}</span>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-sm">${b.title}</h3>
-                        <p class="text-xs text-slate-400">${b.client} • ${inst?.name}</p>
-                    </div>
-                </div>
-                <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onclick="editBooking(${b.id})" class="p-2 hover:text-cyan-400"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg></button>
-                    <button onclick="deleteBooking(${b.id})" class="p-2 hover:text-red-400"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
-                </div>
-            `;
-            list.appendChild(card);
-        });
-    }
-
-    function renderSlotOptions() {
-        const select = document.getElementById("slot-select");
-        const instructorId = document.getElementById("instructor-select").value;
-        const attendees = parseInt(document.getElementById("attendees").value || 1);
-        const iso = toISO(selectedDate);
-        
-        const taken = bookings
-            .filter(b => b.date === iso && b.instructor === instructorId && b.id !== editingId)
-            .map(b => ({ start: timeToMins(b.time), end: timeToMins(b.time) + b.duration }));
-
-        select.innerHTML = "";
-        for (let m = startHour * 60; m < endHour * 60; m += slotMinutes) {
-            const time = minsToTime(m);
-            const end = m + (attendees * slotMinutes);
-            const isTaken = taken.some(t => m < t.end && end > t.start);
-            const isOver = end > endHour * 60;
-
-            const opt = document.createElement("option");
-            opt.value = time;
-            opt.textContent = time;
-            opt.disabled = isTaken || isOver;
-            select.appendChild(opt);
+        function resetForm() {
+            editingId = null;
+            document.getElementById("appointment-form").reset();
+            document.getElementById("save-btn").textContent = "Kaydet";
+            renderSlotOptions();
         }
-    }
 
-    function renderInstructorSelect() {
-        const select = document.getElementById("instructor-select");
-        select.innerHTML = instructors.map(i => `<option value="${i.id_name}">${i.name}</option>`).join("");
-    }
+        function updateClock() {
+            const now = new Date();
+            document.getElementById("live-date").textContent = `${now.getDate()} ${monthNames[now.getMonth()]}`;
+            document.getElementById("live-time").textContent = now.toLocaleTimeString('tr-TR');
+        }
 
-    // Helpers
-    function selectDate(date) {
-        selectedDate = date;
-        document.getElementById("selected-date-label").textContent = `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
-        renderCalendar();
-        renderBookings();
-        renderSlotOptions();
-    }
+        function toISO(d) {
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+        function timeToMins(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
+        function minsToTime(m) { return `${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`; }
 
-    function changeMonth(delta) {
-        currentMonth += delta;
-        if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-        renderCalendar();
-    }
+        window.printInstructor = (id_name) => {
+            // Simple print filter logic could be added here
+            window.print();
+        };
 
-    function resetForm() {
-        editingId = null;
-        document.getElementById("appointment-form").reset();
-        document.getElementById("save-btn").textContent = "Kaydet";
-        renderSlotOptions();
-    }
-
-    window.editBooking = (id) => {
-        const b = bookings.find(x => x.id === id);
-        if (!b) return;
-        editingId = id;
-        document.getElementById("instructor-select").value = b.instructor;
-        document.getElementById("title-input").value = b.title;
-        document.getElementById("attendees").value = b.attendees;
-        document.getElementById("full-name").value = b.client;
-        document.getElementById("phone").value = b.phone;
-        document.getElementById("note-input").value = b.note;
-        document.getElementById("save-btn").textContent = "Güncelle";
-        renderSlotOptions();
-        document.getElementById("slot-select").value = b.time;
-    };
-
-    window.deleteBooking = (id) => deleteAppointment(id);
-
-    function updateClock() {
-        const now = new Date();
-        document.getElementById("live-date").textContent = `${now.getDate()} ${monthNames[now.getMonth()]}`;
-        document.getElementById("live-time").textContent = now.toLocaleTimeString('tr-TR');
-    }
-
-    function toISO(d) {
-        const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
-    function timeToMins(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
-    function minsToTime(m) { return `${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`; }
-
-    function printDay() { window.print(); }
-
-    init();
-})();
-</script>
+        init();
+    })();
+    </script>
 </body>
 </html>
