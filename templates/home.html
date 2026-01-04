@@ -20,10 +20,35 @@
             --emerald: #10b981;
         }
 
+        body.light-mode {
+            --bg: #f1f5f9;
+            --panel: #ffffff;
+            --panel-2: #f8fafc;
+            --border: #cbd5e1;
+            --text: #0f172a;
+            --muted: #475569;
+        }
+
+        body.light-mode .input-field {
+            background-color: #f8fafc;
+            color: #0f172a;
+            border-color: #cbd5e1;
+        }
+
+        body.light-mode .calendar-day {
+            background-color: #ffffff;
+        }
+
+        body.light-mode .bg-slate-800 {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+
         body {
             background-color: var(--bg);
             color: var(--text);
             font-family: "Manrope", sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .panel {
@@ -60,6 +85,26 @@
             opacity: 0.9;
         }
 
+        .btn-save:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(0,0,0,0.3);
+            border-radius: 50%;
+            border-top-color: #000;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         .calendar-day {
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -67,11 +112,30 @@
             min-height: 80px;
             cursor: pointer;
             transition: all 0.2s;
-            background: #161b2b;
+            background: var(--panel);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .calendar-day:hover {
             border-color: var(--cyan);
+            transform: translateY(-2px);
+        }
+
+        .calendar-day.loading {
+            opacity: 0.5;
+            pointer-events: none;
+            background: linear-gradient(90deg, var(--panel) 25%, var(--panel-2) 50%, var(--panel) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         .calendar-day.selected {
@@ -87,14 +151,82 @@
         }
 
         @media print {
-            .no-print { display: none; }
-            body { background: white; color: black; }
-            .panel { border: none; background: white; }
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; padding: 0 !important; }
+            .panel { border: none !important; background: white !important; padding: 0 !important; margin: 0 !important; }
+            .print-only { display: block !important; }
+            .print-header { margin-bottom: 2rem; border-bottom: 2px solid #000; padding-bottom: 1rem; }
+            .print-table { width: 100%; border-collapse: collapse; }
+            .print-table th, .print-table td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
+            .print-table th { background-color: #f2f2f2 !important; -webkit-print-color-adjust: exact; }
+        }
+
+        .print-only { display: none; }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(4px);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: var(--panel);
+            margin: 2rem auto;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body class="p-4 md:p-8">
-    <div class="max-w-6xl mx-auto space-y-8">
+    <!-- Print View -->
+    <div id="print-area" class="print-only">
+        <div class="print-header flex justify-between items-end">
+            <div>
+                <h1 class="text-2xl font-bold">Randevu Listesi</h1>
+                <p id="print-instructor-name" class="text-lg font-semibold"></p>
+            </div>
+            <div class="text-right">
+                <p id="print-date-val" class="font-bold"></p>
+                <p class="text-xs text-slate-500">Oluşturulma: <span id="print-now"></span></p>
+            </div>
+        </div>
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>Saat</th>
+                    <th>Müşteri Ad Soyad</th>
+                    <th>Başlık</th>
+                    <th>Telefon</th>
+                    <th>Not</th>
+                </tr>
+            </thead>
+            <tbody id="print-table-body"></tbody>
+        </table>
+    </div>
+
+    <div class="max-w-6xl mx-auto space-y-8 no-print">
         
         <!-- Header -->
         <header class="flex justify-between items-center no-print">
@@ -103,40 +235,53 @@
                     <span id="live-date">-- --</span>
                     <span id="live-time" class="text-slate-400">--:--:--</span>
                 </div>
+                <button id="theme-toggle" class="flex items-center gap-2 text-xs font-bold text-cyan-400 bg-slate-800/50 px-3 py-1 rounded-full border border-slate-700/50 hover:border-cyan-400/50 transition-all">
+                    <span id="theme-text">Koyu Mod</span>
+                    <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="4.22" x2="19.78" y2="5.64"/></svg>
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
             </div>
-            <h1 class="text-2xl font-extrabold tracking-tighter">Randevum</h1>
+            <div class="flex items-center gap-6">
+                <h1 class="text-2xl font-extrabold tracking-tighter">Randevum</h1>
+                <button id="open-settings" class="text-slate-400 hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+            </div>
         </header>
 
-        <!-- Settings Section -->
-        <section class="panel no-print">
-            <h2 class="text-sm font-bold text-slate-400 uppercase mb-4">Ayarlar</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal no-print">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2 class="text-xl font-bold mb-6">Ayarlar</h2>
+                
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 gap-4">
+                        <input type="hidden" id="settings-start" value="{{ settings.start_time }}">
+                        <input type="hidden" id="settings-end" value="{{ settings.end_time }}">
                         <div>
-                            <label class="text-xs font-bold text-slate-500 block mb-1">Başlangıç saati</label>
-                            <input type="time" id="settings-start" class="input-field" value="{{ settings.start_time }}">
-                        </div>
-                        <div>
-                            <label class="text-xs font-bold text-slate-500 block mb-1">Bitiş saati</label>
-                            <input type="time" id="settings-end" class="input-field" value="{{ settings.end_time }}">
+                            <label class="text-xs font-bold text-slate-500 block mb-1">Randevu Süresi (dk)</label>
+                            <input type="number" id="settings-duration" class="input-field" value="{{ settings.appointment_duration }}">
                         </div>
                     </div>
-                    <div id="instructor-settings" class="space-y-3">
-                        <!-- Instructor inputs will be here -->
+
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-sm font-bold text-slate-400 uppercase">Hocalar</h3>
+                            <button id="add-instructor-btn" class="text-xs bg-cyan-500/10 text-cyan-400 px-3 py-1 rounded-full font-bold hover:bg-cyan-500/20">Hoca Ekle</button>
+                        </div>
+                        <div id="instructor-settings" class="space-y-3 max-h-60 overflow-y-auto pr-2">
+                            <!-- Instructor inputs will be here -->
+                        </div>
                     </div>
-                    <button id="save-settings-btn" class="btn-save text-sm">Ayarları kaydet</button>
+
+                    <div class="pt-4 border-t border-slate-800">
+                        <button id="save-settings-btn" class="btn-save w-full">Ayarları Kaydet</button>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Working Hours Display -->
-        <section class="panel no-print">
-            <h2 class="text-xs font-bold text-slate-500 uppercase mb-4">YAŞAM KOÇU ÇALIŞMA SAATLERİ</h2>
-            <div id="working-hours-list" class="flex flex-wrap gap-8">
-                <!-- Working hours will be here -->
-            </div>
-        </section>
 
         <!-- Calendar Section -->
         <section class="panel">
@@ -175,18 +320,14 @@
             </div>
 
             <form id="appointment-form" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="text-xs font-bold text-slate-500 block mb-1">Hoca seç</label>
                         <select id="instructor-select" class="input-field" required></select>
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-slate-500 block mb-1">Saat aralığı (15 dk)</label>
+                        <label class="text-xs font-bold text-slate-500 block mb-1">Başlangıç Saati</label>
                         <select id="slot-select" class="input-field" required></select>
-                    </div>
-                    <div>
-                        <label class="text-xs font-bold text-slate-500 block mb-1">Danışan sayısı (15 dk / kişi)</label>
-                        <input type="number" id="attendees" class="input-field" min="1" value="1" required>
                     </div>
                 </div>
 
@@ -256,8 +397,8 @@
     <script>
     (function() {
         const monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-        const instructors = JSON.parse(document.getElementById("instructor-data").textContent || "[]");
-        const globalSettings = JSON.parse(document.getElementById("settings-data").textContent || '{"start_time":"09:00","end_time":"17:00"}');
+        let instructors = JSON.parse(document.getElementById("instructor-data").textContent || "[]");
+        const globalSettings = JSON.parse(document.getElementById("settings-data").textContent || '{"start_time":"09:00","end_time":"17:00","appointment_duration":15}');
         
         let bookings = [];
         let selectedDate = new Date();
@@ -266,8 +407,14 @@
         let editingId = null;
 
         async function init() {
+            // Theme init
+            if (localStorage.getItem('theme') === 'light') {
+                document.body.classList.add('light-mode');
+                updateThemeUI();
+            }
+
             renderInstructorSettings();
-            renderWorkingHours();
+            // renderWorkingHours(); // Removed as the element was deleted
             renderInstructorSelect();
             updateClock();
             setInterval(updateClock, 1000);
@@ -280,53 +427,110 @@
             document.getElementById("reset-btn").onclick = resetForm;
             document.getElementById("save-settings-btn").onclick = saveSettings;
             document.getElementById("instructor-select").onchange = renderSlotOptions;
-            document.getElementById("attendees").oninput = renderSlotOptions;
+            
+            // Modal events
+            const modal = document.getElementById("settings-modal");
+            document.getElementById("open-settings").onclick = () => modal.style.display = "block";
+            document.querySelector(".close-modal").onclick = () => modal.style.display = "none";
+            window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
+            
+            document.getElementById("add-instructor-btn").onclick = addInstructorRow;
+            document.getElementById("theme-toggle").onclick = toggleTheme;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            updateThemeUI();
+        }
+
+        function updateThemeUI() {
+            const isLight = document.body.classList.contains('light-mode');
+            document.getElementById("theme-text").textContent = isLight ? "Açık Mod" : "Koyu Mod";
+            document.getElementById("sun-icon").classList.toggle('hidden', !isLight);
+            document.getElementById("moon-icon").classList.toggle('hidden', isLight);
         }
 
         async function loadBookings() {
+            const grid = document.getElementById("calendar-grid");
+            
+            // If grid is empty (first load), show skeleton cells
+            if (grid.children.length === 0) {
+                grid.innerHTML = Array(31).fill(0).map(() => `
+                    <div class="calendar-day loading">
+                        <div class="h-4 w-8 bg-slate-700/50 rounded animate-pulse"></div>
+                        <div class="h-3 w-12 bg-slate-700/50 rounded animate-pulse mt-2"></div>
+                    </div>
+                `).join("");
+            } else {
+                const cells = grid.querySelectorAll(".calendar-day");
+                cells.forEach(c => c.classList.add('loading'));
+            }
+
             try {
                 const response = await fetch('/api/appointments/');
                 bookings = await response.json();
                 renderCalendar();
                 renderBookings();
                 renderInstructorSummary();
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error(e); 
+            }
         }
 
         function renderInstructorSettings() {
             const container = document.getElementById("instructor-settings");
             container.innerHTML = "";
             
-            // Ensure we have at least the 3 instructors from the image if none exist
-            const defaultInstructors = [
-                { id_name: 'burhan', name: 'Burhan', color: '#22d3ee' },
-                { id_name: 'selin', name: 'Selin', color: '#a855f7' },
-                { id_name: 'emre', name: 'Emre', color: '#84cc16' }
-            ];
-
-            const list = instructors.length > 0 ? instructors : defaultInstructors;
-
-            list.forEach(inst => {
+            instructors.forEach(inst => {
                 const div = document.createElement("div");
-                div.className = "flex gap-4 items-center";
+                div.className = "flex gap-3 items-center bg-slate-800/50 p-2 rounded-lg";
                 div.innerHTML = `
-                    <span class="text-xs font-bold text-slate-500 w-16">${inst.name}</span>
-                    <input type="text" class="input-field inst-name" data-id="${inst.id_name}" value="${inst.name}">
-                    <input type="color" class="w-24 h-10 rounded bg-transparent border-none cursor-pointer inst-color" value="${inst.color}">
+                    <input type="text" class="input-field inst-name text-sm" data-id="${inst.id_name}" value="${inst.name}" placeholder="Hoca Adı">
+                    <input type="color" class="w-12 h-8 rounded bg-transparent border-none cursor-pointer inst-color" value="${inst.color}">
+                    <button onclick="removeInstructorRow(this)" class="text-red-400 hover:text-red-300 p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>
                 `;
                 container.appendChild(div);
             });
         }
 
+        function addInstructorRow() {
+            const container = document.getElementById("instructor-settings");
+            const id = 'inst-' + Date.now();
+            const div = document.createElement("div");
+            div.className = "flex gap-3 items-center bg-slate-800/50 p-2 rounded-lg";
+            div.innerHTML = `
+                <input type="text" class="input-field inst-name text-sm" data-id="${id}" value="" placeholder="Hoca Adı">
+                <input type="color" class="w-12 h-8 rounded bg-transparent border-none cursor-pointer inst-color" value="#22d3ee">
+                <button onclick="removeInstructorRow(this)" class="text-red-400 hover:text-red-300 p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+            `;
+            container.appendChild(div);
+        }
+
+        window.removeInstructorRow = (btn) => {
+            btn.parentElement.remove();
+        };
+
         async function saveSettings() {
+            const btn = document.getElementById("save-settings-btn");
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<span class="loading-spinner"></span> Kaydediliyor...`;
+
             const start = document.getElementById("settings-start").value;
             const end = document.getElementById("settings-end").value;
+            const duration = document.getElementById("settings-duration").value;
             const instInputs = document.querySelectorAll("#instructor-settings > div");
             const instData = Array.from(instInputs).map(div => ({
                 id_name: div.querySelector(".inst-name").dataset.id,
                 name: div.querySelector(".inst-name").value,
                 color: div.querySelector(".inst-color").value
-            }));
+            })).filter(i => i.name.trim() !== "");
 
             try {
                 const response = await fetch('/api/settings/save/', {
@@ -335,27 +539,18 @@
                     body: JSON.stringify({
                         start_time: start,
                         end_time: end,
+                        appointment_duration: duration,
                         instructors: instData
                     })
                 });
                 if (response.ok) location.reload();
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error(e);
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
         }
 
-        function renderWorkingHours() {
-            const container = document.getElementById("working-hours-list");
-            container.innerHTML = "";
-            instructors.forEach(inst => {
-                const div = document.createElement("div");
-                div.className = "flex items-center gap-2 text-xs font-bold";
-                div.innerHTML = `
-                    <span class="dot" style="background:${inst.color}"></span>
-                    <span>${inst.name}</span>
-                    <span class="text-slate-500 ml-4">${globalSettings.start_time} - ${globalSettings.end_time}</span>
-                `;
-                container.appendChild(div);
-            });
-        }
 
         function renderCalendar() {
             const grid = document.getElementById("calendar-grid");
@@ -366,11 +561,11 @@
             
             document.getElementById("month-label").textContent = `${monthNames[currentMonth]} ${currentYear}`;
 
-            const slotMinutes = 15;
+            const slotMinutes = parseInt(globalSettings.appointment_duration || 15);
             const [sH, sM] = globalSettings.start_time.split(':').map(Number);
             const [eH, eM] = globalSettings.end_time.split(':').map(Number);
             const totalMinutes = (eH * 60 + eM) - (sH * 60 + sM);
-            const dayCapacity = (totalMinutes / slotMinutes) * instructors.length;
+            const dayCapacity = Math.floor(totalMinutes / slotMinutes) * instructors.length;
 
             for (let i = 0; i < startWeek; i++) grid.appendChild(document.createElement("div"));
 
@@ -378,21 +573,31 @@
                 const dateObj = new Date(currentYear, currentMonth, day);
                 const iso = toISO(dateObj);
                 const cell = document.createElement("div");
-                cell.className = `calendar-day ${iso === toISO(selectedDate) ? 'selected' : ''}`;
                 
                 const dayBookings = bookings.filter(b => b.date === iso);
-                const busyCount = dayBookings.reduce((sum, b) => sum + (b.attendees || 1), 0);
+                const busyCount = dayBookings.length;
                 const percent = dayCapacity > 0 ? Math.round((busyCount / dayCapacity) * 100) : 0;
 
+                // Dynamic background based on percentage
+                let bgClass = "";
+                let barColor = "bg-cyan-500";
+                if (percent > 0 && percent <= 30) { bgClass = "bg-emerald-500/5"; barColor = "bg-emerald-500"; }
+                else if (percent > 30 && percent <= 70) { bgClass = "bg-orange-500/5"; barColor = "bg-orange-500"; }
+                else if (percent > 70) { bgClass = "bg-red-500/5"; barColor = "bg-red-500"; }
+
+                cell.className = `calendar-day ${iso === toISO(selectedDate) ? 'selected' : ''} ${bgClass}`;
+                
                 cell.innerHTML = `
-                    <div class="flex justify-between items-start">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center relative z-10">
                         <span class="text-sm font-bold">${day}</span>
-                        <span class="text-[10px] text-slate-500 uppercase">${["PAZ","PZT","SAL","ÇAR","PER","CUM","CTS"][dateObj.getDay()]}</span>
+                        <span class="text-[7px] md:text-[10px] text-slate-500 uppercase">${["PAZ","PZT","SAL","ÇAR","PER","CUM","CTS"][dateObj.getDay()]}</span>
                     </div>
-                    <div class="mt-2 text-[10px] font-bold text-slate-400">
-                        ${busyCount}/${dayCapacity} (${percent}%)
+                    <div class="mt-1 text-[8px] md:text-[10px] font-bold text-slate-400 relative z-10">
+                        ${busyCount}/${dayCapacity} <span class="hidden md:inline">(%${percent})</span>
                     </div>
-                    ${dayBookings.length > 0 ? `<div class="mt-1"><span class="dot bg-cyan-400"></span></div>` : ''}
+                    <div class="absolute bottom-0 left-0 w-full h-1 bg-slate-800/50">
+                        <div class="h-full ${barColor} transition-all duration-500" style="width: ${percent}%"></div>
+                    </div>
                 `;
 
                 cell.onclick = () => selectDate(dateObj);
@@ -434,11 +639,15 @@
 
             dayBookings.forEach(b => {
                 const inst = instructors.find(i => i.id_name === b.instructor);
+                const endTime = minsToTime(timeToMins(b.time) + b.duration);
                 const div = document.createElement("div");
                 div.className = "flex justify-between items-center p-3 border-b border-slate-800 group";
                 div.innerHTML = `
                     <div class="flex gap-4 items-center">
-                        <span class="font-bold text-white">${b.time}</span>
+                        <div class="flex flex-col items-center min-w-[60px]">
+                            <span class="font-bold text-white">${b.time}</span>
+                            <span class="text-[10px] text-slate-500">${endTime}</span>
+                        </div>
                         <span class="dot" style="background:${inst?.color}"></span>
                         <div>
                             <div class="font-bold text-slate-200">${b.title}</div>
@@ -446,8 +655,8 @@
                         </div>
                     </div>
                     <div class="flex gap-2 opacity-0 group-hover:opacity-100">
-                        <button onclick="editBooking(${b.id})" class="text-cyan-400 hover:underline">Düzenle</button>
-                        <button onclick="deleteBooking(${b.id})" class="text-red-400 hover:underline">Sil</button>
+                        <button onclick="window.editBooking(${b.id})" class="text-cyan-400 hover:underline">Düzenle</button>
+                        <button onclick="window.deleteBooking(${b.id})" class="text-red-400 hover:underline">Sil</button>
                     </div>
                 `;
                 list.appendChild(div);
@@ -488,31 +697,42 @@
         function renderSlotOptions() {
             const select = document.getElementById("slot-select");
             const instructorId = document.getElementById("instructor-select").value;
-            const attendees = parseInt(document.getElementById("attendees").value || 1);
             const iso = toISO(selectedDate);
+            
+            // Current appointment duration from settings
+            const currentDuration = parseInt(globalSettings.appointment_duration || 15);
+            const step = currentDuration; // ONLY duration, no gap
             
             const taken = bookings
                 .filter(b => b.date === iso && b.instructor === instructorId && b.id !== editingId)
-                .map(b => ({ start: timeToMins(b.time), end: timeToMins(b.time) + b.duration }));
+                .map(b => ({ 
+                    start: timeToMins(b.time), 
+                    end: timeToMins(b.time) + b.duration
+                }));
 
-            const slotMinutes = 15;
             const [sH, sM] = globalSettings.start_time.split(':').map(Number);
             const [eH, eM] = globalSettings.end_time.split(':').map(Number);
             const startMins = sH * 60 + sM;
             const endMins = eH * 60 + eM;
 
-            select.innerHTML = "";
-            for (let m = startMins; m < endMins; m += slotMinutes) {
+            select.innerHTML = '<option value="">Saat Seçin</option>';
+            for (let m = startMins; m <= endMins - currentDuration; m += step) {
                 const time = minsToTime(m);
-                const end = m + (attendees * slotMinutes);
-                const isTaken = taken.some(t => m < t.end && end > t.start);
-                const isOver = end > endMins;
+                const end = m + currentDuration;
+                
+                const isTaken = taken.some(t => {
+                    const existingStart = t.start;
+                    const existingEnd = t.end;
+                    // Simple overlap check: (StartA < EndB) and (EndA > StartB)
+                    return (m < existingEnd && end > existingStart);
+                });
 
-                const opt = document.createElement("option");
-                opt.value = time;
-                opt.textContent = time;
-                opt.disabled = isTaken || isOver;
-                select.appendChild(opt);
+                if (!isTaken) {
+                    const opt = document.createElement("option");
+                    opt.value = time;
+                    opt.textContent = time;
+                    select.appendChild(opt);
+                }
             }
         }
 
@@ -523,17 +743,25 @@
 
         async function saveAppointment(e) {
             e.preventDefault();
+            const timeVal = document.getElementById("slot-select").value;
+            if (!timeVal) { alert("Lütfen saat seçin"); return; }
+
+            const btn = document.getElementById("save-btn");
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<span class="loading-spinner"></span> Kaydediliyor...`;
+
             const record = {
                 id: editingId,
                 instructor: document.getElementById("instructor-select").value,
                 date: toISO(selectedDate),
-                time: document.getElementById("slot-select").value,
-                attendees: document.getElementById("attendees").value,
+                time: timeVal,
+                attendees: 1, // Default to 1 as requested
                 title: document.getElementById("title-input").value,
                 client: document.getElementById("full-name").value,
                 phone: document.getElementById("phone").value,
                 note: document.getElementById("note-input").value,
-                duration: document.getElementById("attendees").value * 15
+                duration: parseInt(globalSettings.appointment_duration || 15)
             };
 
             try {
@@ -548,6 +776,10 @@
                     resetForm();
                 }
             } catch (e) { console.error(e); }
+            finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
         }
 
         window.editBooking = (id) => {
@@ -556,13 +788,22 @@
             editingId = id;
             document.getElementById("instructor-select").value = b.instructor;
             document.getElementById("title-input").value = b.title;
-            document.getElementById("attendees").value = b.attendees;
+            // attendees field was removed from form, but we keep it in record
             document.getElementById("full-name").value = b.client;
             document.getElementById("phone").value = b.phone;
             document.getElementById("note-input").value = b.note;
             document.getElementById("save-btn").textContent = "Güncelle";
             renderSlotOptions();
-            document.getElementById("slot-select").value = b.time;
+            
+            // Add the current booking's time to slot options if it's not there
+            const select = document.getElementById("slot-select");
+            if (!Array.from(select.options).some(opt => opt.value === b.time)) {
+                const opt = document.createElement("option");
+                opt.value = b.time;
+                opt.textContent = b.time;
+                select.appendChild(opt);
+            }
+            select.value = b.time;
         };
 
         window.deleteBooking = async (id) => {
@@ -601,7 +842,33 @@
         function minsToTime(m) { return `${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`; }
 
         window.printInstructor = (id_name) => {
-            // Simple print filter logic could be added here
+            const inst = instructors.find(i => i.id_name === id_name);
+            const iso = toISO(selectedDate);
+            const dayBookings = bookings
+                .filter(b => b.date === iso && b.instructor === id_name)
+                .sort((a, b) => a.time.localeCompare(b.time));
+
+            if (dayBookings.length === 0) {
+                alert("Bu hocanın seçili günde randevusu bulunmuyor.");
+                return;
+            }
+
+            // Fill print area
+            document.getElementById("print-instructor-name").textContent = `Hoca: ${inst.name}`;
+            document.getElementById("print-date-val").textContent = document.getElementById("selected-date-display").textContent;
+            document.getElementById("print-now").textContent = new Date().toLocaleString('tr-TR');
+
+            const tbody = document.getElementById("print-table-body");
+            tbody.innerHTML = dayBookings.map(b => `
+                <tr>
+                    <td><b>${b.time} - ${minsToTime(timeToMins(b.time) + b.duration)}</b></td>
+                    <td>${b.client}</td>
+                    <td>${b.title}</td>
+                    <td>${b.phone}</td>
+                    <td>${b.note || '-'}</td>
+                </tr>
+            `).join("");
+
             window.print();
         };
 

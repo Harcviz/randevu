@@ -12,14 +12,15 @@ class Instructor(models.Model):
 class GlobalSettings(models.Model):
     start_time = models.TimeField(default="09:00")
     end_time = models.TimeField(default="17:00")
+    appointment_duration = models.PositiveIntegerField(default=15)
 
     class Meta:
         verbose_name = "Global Settings"
         verbose_name_plural = "Global Settings"
 
 class Appointment(models.Model):
-    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='appointments')
-    date = models.DateField()
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='appointments', db_index=True)
+    date = models.DateField(db_index=True)
     time = models.TimeField()
     title = models.CharField(max_length=200, default="Yeni randevu")
     client_full_name = models.CharField(max_length=200)
@@ -31,6 +32,9 @@ class Appointment(models.Model):
 
     class Meta:
         ordering = ['date', 'time']
+        indexes = [
+            models.Index(fields=['date', 'instructor']),
+        ]
 
     def __str__(self):
         return f"{self.date} {self.time} - {self.client_full_name}"

@@ -29,7 +29,7 @@ def index(request):
     instructors = list(Instructor.objects.values('id_name', 'name', 'badge_class', 'color'))
     settings = GlobalSettings.objects.first()
     if not settings:
-        settings = GlobalSettings.objects.create(start_time="09:00", end_time="17:00")
+        settings = GlobalSettings.objects.create(start_time="09:00", end_time="17:00", appointment_duration=15)
     
     start_time = settings.start_time
     end_time = settings.end_time
@@ -44,6 +44,7 @@ def index(request):
         "settings": {
             "start_time": start_time,
             "end_time": end_time,
+            "appointment_duration": settings.appointment_duration,
         }
     })
 
@@ -59,10 +60,15 @@ def save_settings(request):
             
             settings.start_time = data.get('start_time', '09:00')
             settings.end_time = data.get('end_time', '17:00')
+            settings.appointment_duration = int(data.get('appointment_duration', 15))
             settings.save()
 
             # Update instructors
             instructor_data = data.get('instructors', [])
+            # Get current instructor IDs to identify which ones to delete
+            current_ids = [inst['id_name'] for inst in instructor_data]
+            Instructor.objects.exclude(id_name__in=current_ids).delete()
+
             for inst in instructor_data:
                 Instructor.objects.update_or_create(
                     id_name=inst['id_name'],
